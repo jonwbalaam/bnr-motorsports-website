@@ -193,11 +193,7 @@
           </div>
           <div style="font-size:11px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; color:#6b7280; margin-bottom:22px;">Scheme — {{ aScheme }}</div>
           <p style="font-size:16px; font-weight:300; line-height:1.6; color:#e8e9ec; margin:0 0 16px;">{{ aWhat }}</p>
-          <p style="font-size:14.5px; font-weight:300; line-height:1.65; color:#9aa0ad; margin:0 0 24px;">{{ aBody }}</p>
-          <div style="display:inline-flex; align-items:center; gap:11px; border:1px solid oklch(0.87 0.185 100 / 0.4); border-radius:4px; padding:10px 15px; background:oklch(0.87 0.185 100 / 0.06);">
-            <span style="font-size:10px; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:oklch(0.87 0.185 100);">You receive</span>
-            <span style="font-size:13px; font-weight:500; color:#fff;">{{ aCert }}</span>
-          </div>
+          <p style="font-size:14.5px; font-weight:300; line-height:1.65; color:#9aa0ad; margin:0;">{{ aBody }}</p>
         </div>
       </div>
     </div>
@@ -448,7 +444,7 @@ class Component extends DCLogic {
       isMobile: s.isMobile, isDesktop: !s.isMobile,
       menuOpen: s.menuOpen, toggleMenu, closeMenu, menuBarTop, menuBarBottom, menuBarMidOpacity,
       buildImages, successHeading,
-      aCode:a.code, aName:a.name, aScheme:a.scheme, aCert:a.cert, aWhat:a.what, aBody:a.body,
+      aCode:a.code, aName:a.name, aScheme:a.scheme, aWhat:a.what, aBody:a.body,
       name:s.name, onName:(e)=>this.setState({ name:e.target.value }),
       platform:s.platform, onPlatform:(e)=>this.setState({ platform:e.target.value }),
       region:s.region, onRegion:(e)=>this.setState({ region:e.target.value }),
