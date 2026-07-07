@@ -46,11 +46,12 @@
 
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex; align-items:center; gap:clamp(16px,2.6vw,34px); font-size:13px; font-weight:400;">
+        <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
         <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
         <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
         <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">About</a>
         <a href="#hiring" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Careers</a>
-        <a href="#enquire" style="text-decoration:none; color:#0a0c10; background:oklch(0.87 0.185 100); padding:9px 18px; border-radius:4px; font-weight:500; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">Enquire now</a>
+        <a href="#enquire" style="text-decoration:none; color:#0a0c10; background:oklch(0.87 0.185 100); padding:9px 18px; border-radius:4px; font-weight:500; white-space:nowrap; flex-shrink:0; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">Enquire now</a>
       </div>
       </sc-if>
 
@@ -70,6 +71,7 @@
 
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="background:#0a0c10; border-bottom:1px solid #1a1e28; padding:8px clamp(16px,4vw,48px) 20px; display:flex; flex-direction:column;">
+      <a href="stock.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
       <a href="#how" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">How it works</a>
       <a href="#compliance" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Compliance</a>
       <a href="#mission" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">About</a>
@@ -164,6 +166,38 @@
     </div>
   </section>
 
+  <!-- PREVIOUS BUILDS -->
+  <section id="build" data-screen-label="Previous builds" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0;">
+
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px);">
+      <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,7vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Previous builds.</h2>
+      <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Proof, not promises — a handful of the builds we've completed across 5+ years working on JDM cars.</p>
+    </div>
+    </sc-if>
+
+    <div style="position:relative;">
+      <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
+        <div style="display:flex; gap:clamp(12px,1.6vw,20px); width:max-content; animation:datum-build-scroll 46s linear infinite;">
+          <sc-for list="{{ buildImages }}" as="bld" hint-placeholder-count="16">
+            <div style="flex:0 0 auto; width:clamp(140px,16vw,210px); aspect-ratio:9/19.5; border-radius:clamp(18px,2vw,28px); overflow:hidden; background:#12151c;">
+              <img ref="{{ bld.setRef }}" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute; inset:0; display:flex; align-items:center; pointer-events:none; background:linear-gradient(to right, #0a0c10 0%, #0a0c10 24%, rgba(10,12,16,0.86) 38%, transparent 62%);">
+        <div style="max-width:400px; padding:0 clamp(16px,4vw,48px);">
+          <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,4.4vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Previous builds.</h2>
+          <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:40ch;">Proof, not promises — a handful of the builds we've completed across 5+ years working on JDM cars.</p>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </section>
+
   <!-- COMPLIANCE MAP -->
   <section id="compliance" data-screen-label="Compliance" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
     <div style="position:absolute; left:22%; top:40%; width:640px; height:640px; transform:translate(-50%,-50%); background:radial-gradient(circle, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
@@ -201,35 +235,33 @@
     </div>
   </section>
 
-  <!-- PREVIOUS BUILDS -->
-  <section id="build" data-screen-label="Previous builds" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0;">
-
-    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
-    <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px);">
-      <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,7vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Previous builds.</h2>
-      <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Proof, not promises — a handful of the builds we've completed across 5+ years working on JDM cars.</p>
+  <!-- CURRENT STOCK PREVIEW -->
+  <section id="stock" data-screen-label="Current stock" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0;">
+    <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px); display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
+      <div>
+        <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:14px;">For sale now</div>
+        <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.6vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Current stock.</h2>
+        <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Finished builds and clean cars ready to go, updated straight from our listings.</p>
+      </div>
+      <a href="stock.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
     </div>
-    </sc-if>
 
-    <div style="position:relative;">
-      <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
-        <div style="display:flex; gap:clamp(12px,1.6vw,20px); width:max-content; animation:datum-build-scroll 46s linear infinite;">
-          <sc-for list="{{ buildImages }}" as="bld" hint-placeholder-count="16">
-            <div style="flex:0 0 auto; width:clamp(140px,16vw,210px); aspect-ratio:9/19.5; border-radius:clamp(18px,2vw,28px); overflow:hidden; background:#12151c;">
-              <img ref="{{ bld.setRef }}" alt="" style="width:100%; height:100%; object-fit:cover; display:block;">
+    <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
+      <div style="display:flex; gap:clamp(14px,1.8vw,22px); width:max-content; animation:datum-build-scroll 40s linear infinite;">
+        <sc-for list="{{ stockPreview }}" as="car" hint-placeholder-count="8">
+          <a href="stock.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
+            <div style="position:relative; aspect-ratio:4/3; background:#12151c; overflow:hidden;">
+              <img ref="{{ car.setPhotoRef }}" alt="{{ car.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,10,0.05) 0%, rgba(6,7,10,0.55) 100%); pointer-events:none;"></div>
+              <div style="position:absolute; top:10px; left:10px; font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:4px 9px; border-radius:20px; background:{{ car.badgeBg }}; color:{{ car.badgeFg }};">{{ car.status }}</div>
+              <div style="position:absolute; bottom:10px; left:13px; font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; font-size:21px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.6);">{{ car.priceLabel }}</div>
             </div>
-          </sc-for>
-        </div>
+            <div style="padding:14px 15px 16px;">
+              <div style="font-size:14.5px; font-weight:600; color:#fff; line-height:1.3;">{{ car.title }}</div>
+            </div>
+          </a>
+        </sc-for>
       </div>
-
-      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
-      <div style="position:absolute; inset:0; display:flex; align-items:center; pointer-events:none; background:linear-gradient(to right, #0a0c10 0%, #0a0c10 24%, rgba(10,12,16,0.86) 38%, transparent 62%);">
-        <div style="max-width:400px; padding:0 clamp(16px,4vw,48px);">
-          <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,4.4vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Previous builds.</h2>
-          <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:40ch;">Proof, not promises — a handful of the builds we've completed across 5+ years working on JDM cars.</p>
-        </div>
-      </div>
-      </sc-if>
     </div>
   </section>
 
@@ -357,6 +389,7 @@
         <div style="min-width:0;">
           <div style="font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:#6b7280; margin-bottom:14px;">Explore</div>
           <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; font-weight:300;">
+            <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
             <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Mission</a>
             <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
             <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
@@ -438,6 +471,17 @@ function getComplianceState(code){
 
 const BUILD_PHOTO_COUNT = 16;
 
+// Mirrors the mock data on stock.html — a small preview slice for
+// the landing-page gallery. Swap for the live feed once it exists.
+const STOCK_PREVIEW = [
+  { title:'1999 R34 GT-R V-Spec', priceLabel:'$189,000', status:'Available', photo:'assets/builds/build-03.jpg' },
+  { title:'1995 R33 GT-R V-Spec', priceLabel:'$124,000', status:'Available', photo:'assets/builds/build-07.jpg' },
+  { title:'1992 R32 GT-R', priceLabel:'$79,500', status:'Available', photo:'assets/builds/build-11.jpg' },
+  { title:'1998 R34 GT-R', priceLabel:'On hold', status:'On hold', photo:'assets/builds/build-05.jpg' },
+  { title:'1993 R32 GT-R V-Spec II', priceLabel:'$92,000', status:'Available', photo:'assets/builds/build-14.jpg' },
+  { title:'1996 R33 GT-R', priceLabel:'$109,500', status:'Available', photo:'assets/builds/build-09.jpg' },
+];
+
 class Component extends DCLogic {
   constructor(props){
     super(props);
@@ -500,6 +544,12 @@ class Component extends DCLogic {
       isMobile: s.isMobile, isDesktop: !s.isMobile,
       menuOpen: s.menuOpen, toggleMenu, closeMenu, menuBarTop, menuBarBottom, menuBarMidOpacity,
       buildImages, successHeading,
+      stockPreview: STOCK_PREVIEW.map((car, i) => ({
+        key: i, title: car.title, priceLabel: car.priceLabel, status: car.status,
+        badgeBg: car.status === 'Available' ? 'rgba(10,12,16,0.72)' : 'rgba(120,90,20,0.85)',
+        badgeFg: car.status === 'Available' ? yellow : '#f2d9a0',
+        setPhotoRef: (el) => { if (el && !el.src.endsWith(car.photo)) el.src = car.photo; },
+      })),
       aCode:a.code, aName:a.name, aScheme:a.scheme, aWhat:a.what, aBody:a.body,
       name:s.name, onName:(e)=>this.setState({ name:e.target.value }),
       platform:s.platform, onPlatform:(e)=>this.setState({ platform:e.target.value }),
