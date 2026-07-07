@@ -30,6 +30,10 @@
   a{ color:inherit; }
   html{ scroll-behavior:smooth; }
   @keyframes datum-build-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @media (max-width:720px){
+    #hiring-info, #enquire-info { text-align:center; }
+    #hiring-note, #enquire-note, #hiring-form, #enquire-form { margin-left:auto; margin-right:auto; }
+  }
 </style>
 </helmet>
 
@@ -270,14 +274,14 @@
   <section id="enquire" data-screen-label="Enquire" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
     <div style="position:absolute; left:50%; top:0; width:900px; height:500px; transform:translateX(-50%); background:radial-gradient(ellipse at top, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
     <div style="position:relative; max-width:1320px; margin:0 auto; padding:clamp(56px,8vw,120px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(48px,9vw,140px); align-items:start;">
-      <div>
+      <div id="enquire-info">
         <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:20px;">Start the process</div>
         <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(36px,5.6vw,68px); line-height:0.9; letter-spacing:0.005em; margin:0; color:#fff; text-shadow:0 0 50px oklch(0.87 0.185 100 / 0.2);">Book a<br>consultation</h2>
         <p style="font-size:16px; font-weight:300; line-height:1.7; color:#9aa0ad; margin:28px 0 0; max-width:44ch;">Once we receive your enquiry, we'll get in touch to schedule a build session (online by video, or in person at our Gold Coast, Queensland workshop if local) where we go through your goals for the build and develop a quote together.</p>
-        <div style="font-size:13.5px; font-weight:300; line-height:1.75; color:#6b7280; margin-top:30px; border-left:2px solid oklch(0.87 0.185 100); padding-left:18px; max-width:42ch;">Free, start to finish. The phone call, this consult and your build quote cost nothing — no price generated until you're ready to go ahead.</div>
+        <div id="enquire-note" style="font-size:13.5px; font-weight:300; line-height:1.75; color:#6b7280; margin-top:30px; border-left:2px solid oklch(0.87 0.185 100); padding-left:18px; max-width:42ch;">Free, start to finish. The phone call, this consult and your build quote cost nothing — no price generated until you're ready to go ahead.</div>
       </div>
 
-      <div style="background:#0e1118; border:1px solid #1e2330; border-radius:6px; padding:clamp(28px,3.4vw,40px); box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 50px oklch(0.87 0.185 100 / 0.06); width:100%; max-width:520px;">
+      <div id="enquire-form" style="background:#0e1118; border:1px solid #1e2330; border-radius:6px; padding:clamp(28px,3.4vw,40px); box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 50px oklch(0.87 0.185 100 / 0.06); width:100%; max-width:520px;">
         <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
         <form action="https://formspree.io/f/mjgqpbnk" method="POST" onSubmit="{{ onSubmit }}" style="display:flex; flex-direction:column; gap:16px;">
           <div style="display:flex; flex-direction:column; gap:7px;">
@@ -333,14 +337,14 @@
   <section id="hiring" data-screen-label="We're hiring" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
     <div style="position:absolute; left:50%; bottom:0; width:900px; height:500px; transform:translateX(-50%); background:radial-gradient(ellipse at bottom, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
     <div style="position:relative; max-width:1320px; margin:0 auto; padding:clamp(56px,8vw,120px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(48px,9vw,140px); align-items:start;">
-      <div>
+      <div id="hiring-info">
         <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:20px;">We're hiring</div>
         <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(36px,5.6vw,68px); line-height:0.9; letter-spacing:0.005em; margin:0; color:#fff; text-shadow:0 0 50px oklch(0.87 0.185 100 / 0.2);">Qualified GT-R<br>mechanics wanted.</h2>
         <p style="font-size:16px; font-weight:300; line-height:1.7; color:#9aa0ad; margin:28px 0 0; max-width:44ch;">We're looking for qualified mechanics with real experience on Nissan Skyline GT-Rs to join the BNR team on the Gold Coast. If RB engines and these platforms are your trade, we'd like to hear from you.</p>
-        <div style="font-size:13.5px; font-weight:300; line-height:1.75; color:#6b7280; margin-top:30px; border-left:2px solid oklch(0.87 0.185 100); padding-left:18px; max-width:42ch;">Tell us about your background and experience with GT-Rs — we'll get back to you to arrange a chat.</div>
+        <div id="hiring-note" style="font-size:13.5px; font-weight:300; line-height:1.75; color:#6b7280; margin-top:30px; border-left:2px solid oklch(0.87 0.185 100); padding-left:18px; max-width:42ch;">Tell us about your background and experience with GT-Rs — we'll get back to you to arrange a chat.</div>
       </div>
 
-      <div style="background:#0e1118; border:1px solid #1e2330; border-radius:6px; padding:clamp(28px,3.4vw,40px); box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 50px oklch(0.87 0.185 100 / 0.06); width:100%; max-width:520px;">
+      <div id="hiring-form" style="background:#0e1118; border:1px solid #1e2330; border-radius:6px; padding:clamp(28px,3.4vw,40px); box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 50px oklch(0.87 0.185 100 / 0.06); width:100%; max-width:520px;">
         <sc-if value="{{ hireNotSubmitted }}" hint-placeholder-val="{{ true }}">
         <form action="https://formspree.io/f/mjgqpbnk" method="POST" onSubmit="{{ onHireSubmit }}" style="display:flex; flex-direction:column; gap:16px;">
           <div style="display:flex; flex-direction:column; gap:7px;">
