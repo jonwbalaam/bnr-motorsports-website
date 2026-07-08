@@ -1,0 +1,36 @@
+[
+  {
+    "title": "1990 Nissan Skyline R32 GTR",
+    "slug": "1990-nissan-skyline-r32-gtr",
+    "price": "A$78,500",
+    "status": "sold",
+    "listed_date": "7/3",
+    "fb_item_id": "4495813687297848",
+    "description_file": "assets/stock-sync/1990-nissan-skyline-r32-gtr/description.txt",
+    "photos": [
+      "assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-1.jpg",
+      "assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-2.jpg",
+      "assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-3.jpg",
+      "assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-4.jpg",
+      "assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-5.jpg"
+    ],
+    "synced_at": "2026-07-08"
+  },
+  {
+    "title": "1994 Nissan Skyline R32 GTR",
+    "slug": "1994-nissan-skyline-r32-gtr",
+    "price": "$72,500",
+    "status": "sold",
+    "listed_date": "6/17",
+    "fb_item_id": "888399837623004",
+    "description_file": "assets/stock-sync/1994-nissan-skyline-r32-gtr/description.txt",
+    "photos": [
+      "assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-1.jpg",
+      "assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-2.jpg",
+      "assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-3.jpg",
+      "assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-4.jpg",
+      "assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-5.jpg"
+    ],
+    "synced_at": "2026-07-08"
+  }
+]
