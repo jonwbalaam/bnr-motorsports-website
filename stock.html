@@ -199,9 +199,9 @@ const MOCK_LISTINGS = [
 ];
 
 function formatPrice(car){
-  if (car.status === 'Sold') return 'Sold';
-  if (!car.price) return 'POA';
-  return '$' + car.price.toLocaleString('en-AU');
+  if (!car.price) return car.status === 'Sold' ? 'Sold' : 'POA';
+  const priceStr = '$' + car.price.toLocaleString('en-AU');
+  return car.status === 'Sold' ? ('Sold · ' + priceStr) : priceStr;
 }
 
 class Component extends DCLogic {
