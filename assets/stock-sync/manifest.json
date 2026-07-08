@@ -58,5 +58,20 @@
       "assets/stock-sync/1991-nissan-skyline-r32-gtr/photo-1.png"
     ],
     "synced_at": "2026-07-08"
+  },
+  {
+    "title": "1995 Nissan Skyline R33 GTR Series 1 LP2",
+    "slug": "1995-nissan-skyline-r33-gtr-series-1-lp2",
+    "price": "$85,000",
+    "status": "sold",
+    "listed_date": "6/2",
+    "fb_item_id": "2425171494654888",
+    "description_file": "assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/description.txt",
+    "photos": [
+      "assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-1.png",
+      "assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-2.png",
+      "assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-3.png"
+    ],
+    "synced_at": "2026-07-08"
   }
 ]

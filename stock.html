@@ -186,7 +186,7 @@
 const MOCK_LISTINGS = [
   { id:1, model:'R32', title:'1991 Nissan Skyline R32 GTR', price:85000, status:'Available',
     year:1991, odometer:'17,000 km', transmission:'5-speed manual', engine:'RB26DETT (24u N1 block, built)',
-    location:'Gold Coast, QLD', posted:27,
+    location:'Gold Coast, QLD', posted:26,
     blurb:"Rare factory AH3 Red Pearl gangster-style build — genuine N1 block, GTC's, and a full N1 kit making 492hp on pump fuel.",
     photos:['assets/stock-sync/1991-nissan-skyline-r32-gtr/photo-1.png'] },
   { id:2, model:'R32', title:'1990 Nissan Skyline R32 GTR', price:78500, status:'Sold',
@@ -207,7 +207,7 @@ const MOCK_LISTINGS = [
     photos:['assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-1.png'] },
   { id:4, model:'R32', title:'1994 Nissan Skyline R32 GTR Series 3', price:72500, status:'Sold',
     year:1994, odometer:'88,000 km', transmission:'5-speed manual', engine:'RB26DETT, stock',
-    location:'Gold Coast, QLD', posted:19,
+    location:'Gold Coast, QLD', posted:18,
     blurb:'Factory KL0 Silver, all-standard Series 3 with a genuine long-nose crank and an extensive documented service history.',
     photos:[
       'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-1.jpg',
@@ -215,6 +215,15 @@ const MOCK_LISTINGS = [
       'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-3.jpg',
       'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-4.jpg',
       'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-5.jpg',
+    ] },
+  { id:5, model:'R33', title:'1995 Nissan Skyline R33 GTR Series 1 LP2', price:85000, status:'Sold',
+    year:1995, odometer:'119,000 km', transmission:'5-speed manual', engine:'RB26DETT, stock',
+    location:'Gold Coast, QLD', posted:36,
+    blurb:'Factory LP2 Midnight Purple with an extensive, fully documented service history — one of the cleanest Series 1 LP2s around.',
+    photos:[
+      'assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-1.png',
+      'assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-2.png',
+      'assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-3.png',
     ] },
 ];
 
@@ -259,7 +268,11 @@ class Component extends DCLogic {
     let filtered = s.model === 'All' ? MOCK_LISTINGS.slice() : MOCK_LISTINGS.filter((c) => c.model === s.model);
     if (s.sort === 'price-asc') filtered.sort((a,b) => (a.price||9e9) - (b.price||9e9));
     else if (s.sort === 'price-desc') filtered.sort((a,b) => (b.price||0) - (a.price||0));
-    else filtered.sort((a,b) => a.posted - b.posted);
+    else filtered.sort((a,b) => {
+      const aAvail = a.status === 'Available', bAvail = b.status === 'Available';
+      if (aAvail !== bAvail) return aAvail ? -1 : 1;
+      return a.posted - b.posted;
+    });
 
     const listings = filtered.map((car) => ({
       id: car.id,
