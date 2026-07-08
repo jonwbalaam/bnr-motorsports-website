@@ -19,6 +19,7 @@
   ::selection{ background:oklch(0.87 0.185 100); color:#0a0c10; }
   a{ color:inherit; }
   html{ scroll-behavior:smooth; }
+  [data-photo-scroll]::-webkit-scrollbar{ display:none; }
 </style>
 </helmet>
 
@@ -105,10 +106,17 @@
         <sc-for list="{{ listings }}" as="car" hint-placeholder-count="6">
           <div style="background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden; display:flex; flex-direction:column;">
             <div style="position:relative; aspect-ratio:4/3; background:#12151c; overflow:hidden;">
-              <img ref="{{ car.setPhotoRef }}" alt="{{ car.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
+              <div data-photo-scroll style="display:flex; width:100%; height:100%; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none;">
+                <sc-for list="{{ car.photos }}" as="ph" hint-placeholder-count="3">
+                  <img ref="{{ ph.setRef }}" alt="{{ car.title }}" style="flex:0 0 100%; width:100%; height:100%; object-fit:cover; display:block; scroll-snap-align:start;">
+                </sc-for>
+              </div>
               <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,10,0.05) 0%, rgba(6,7,10,0.55) 100%); pointer-events:none;"></div>
               <div style="position:absolute; top:12px; left:12px; font-size:10.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:5px 10px; border-radius:20px; background:{{ car.badgeBg }}; color:{{ car.badgeFg }};">{{ car.status }}</div>
               <div style="position:absolute; bottom:12px; left:14px; font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; font-size:24px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.6);">{{ car.priceLabel }}</div>
+              <sc-if value="{{ car.hasMultiplePhotos }}" hint-placeholder-val="{{ true }}">
+              <div style="position:absolute; bottom:12px; right:14px; font-size:10px; font-weight:600; letter-spacing:.04em; color:#fff; background:rgba(6,7,10,0.6); padding:3px 8px; border-radius:10px; pointer-events:none;">{{ car.photoCountLabel }}</div>
+              </sc-if>
             </div>
             <div style="padding:18px 18px 20px; display:flex; flex-direction:column; gap:12px; flex:1;">
               <div>
@@ -180,22 +188,34 @@ const MOCK_LISTINGS = [
     year:1991, odometer:'17,000 km', transmission:'5-speed manual', engine:'RB26DETT (24u N1 block, built)',
     location:'Gold Coast, QLD', posted:27,
     blurb:"Rare factory AH3 Red Pearl gangster-style build — genuine N1 block, GTC's, and a full N1 kit making 492hp on pump fuel.",
-    photo:'assets/stock-sync/1991-nissan-skyline-r32-gtr/photo-1.png' },
+    photos:['assets/stock-sync/1991-nissan-skyline-r32-gtr/photo-1.png'] },
   { id:2, model:'R32', title:'1990 Nissan Skyline R32 GTR', price:78500, status:'Sold',
     year:1990, odometer:'32,538 km', transmission:'5-speed manual', engine:'RB26DETT (R34 Nur conversion)',
     location:'Gold Coast, QLD', posted:5,
     blurb:'Gunmetal Grey with a genuine R34 GT-R Nur motor conversion — the best OEM crate engine money could buy before the S1/R1 F-Sport program.',
-    photo:'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-1.jpg' },
+    photos:[
+      'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-1.jpg',
+      'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-2.jpg',
+      'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-3.jpg',
+      'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-4.jpg',
+      'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-5.jpg',
+    ] },
   { id:3, model:'R32', title:'1994 Nissan Skyline R32 GTR', price:72500, status:'Sold',
     year:1994, odometer:'100,450 km', transmission:'5-speed manual', engine:'RB26DETT, stock',
     location:'Gold Coast, QLD', posted:21,
     blurb:'Factory 326 White, low-kay Series 3 with the desirable long-nose crank variation and an almost complete N1 kit.',
-    photo:'assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-1.png' },
+    photos:['assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-1.png'] },
   { id:4, model:'R32', title:'1994 Nissan Skyline R32 GTR Series 3', price:72500, status:'Sold',
     year:1994, odometer:'88,000 km', transmission:'5-speed manual', engine:'RB26DETT, stock',
     location:'Gold Coast, QLD', posted:19,
     blurb:'Factory KL0 Silver, all-standard Series 3 with a genuine long-nose crank and an extensive documented service history.',
-    photo:'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-1.jpg' },
+    photos:[
+      'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-1.jpg',
+      'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-2.jpg',
+      'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-3.jpg',
+      'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-4.jpg',
+      'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-5.jpg',
+    ] },
 ];
 
 function formatPrice(car){
@@ -253,7 +273,12 @@ class Component extends DCLogic {
       engine: car.engine,
       location: car.location,
       blurb: car.blurb,
-      setPhotoRef: (el) => { if (el && !el.src.endsWith(car.photo)) el.src = car.photo; },
+      photos: car.photos.map((src, pi) => ({
+        key: pi,
+        setRef: (el) => { if (el && !el.src.endsWith(src)) el.src = src; },
+      })),
+      hasMultiplePhotos: car.photos.length > 1,
+      photoCountLabel: car.photos.length + ' photos',
       enquireHref: 'mailto:bnrmotorsportsau@gmail.com?subject=' + encodeURIComponent('Enquiry: ' + car.title),
     }));
 
