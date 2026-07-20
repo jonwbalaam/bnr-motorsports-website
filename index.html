@@ -56,7 +56,7 @@
 
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex; align-items:center; gap:clamp(16px,2.6vw,34px); font-size:13px; font-weight:400;">
-        <a href="Stock.dc.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
+        <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
         <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
         <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
         <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">About</a>
@@ -81,7 +81,7 @@
 
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="background:#0a0c10; border-bottom:1px solid #1a1e28; padding:8px clamp(16px,4vw,48px) 20px; display:flex; flex-direction:column;">
-      <a href="Stock.dc.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
+      <a href="stock.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
       <a href="#how" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">How it works</a>
       <a href="#compliance" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Compliance</a>
       <a href="#mission" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">About</a>
@@ -302,13 +302,13 @@
         <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.6vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Current stock.</h2>
         <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Finished builds and clean cars ready to go, updated straight from our listings.</p>
       </div>
-      <a href="Stock.dc.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
+      <a href="stock.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
     </div>
 
     <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
       <div style="display:flex; gap:clamp(14px,1.8vw,22px); width:max-content; animation:datum-build-scroll 40s linear infinite;">
         <sc-for list="{{ stockPreview }}" as="car" hint-placeholder-count="8">
-          <a href="Stock.dc.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
+          <a href="stock.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
             <div style="position:relative; aspect-ratio:4/3; background:#12151c; overflow:hidden;">
               <img ref="{{ car.setPhotoRef }}" alt="{{ car.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
               <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,10,0.05) 0%, rgba(6,7,10,0.55) 100%); pointer-events:none;"></div>
@@ -447,7 +447,7 @@
         <div style="min-width:0;">
           <div style="font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:#6b7280; margin-bottom:14px;">Explore</div>
           <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; font-weight:300;">
-            <a href="Stock.dc.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
+            <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
             <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Mission</a>
             <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
             <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
