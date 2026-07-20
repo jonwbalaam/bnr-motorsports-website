@@ -3,17 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BNR Motorsports — Nissan Skyline GT-R Performance Builds</title>
-<meta name="description" content="Bespoke, road-legal Nissan Skyline R32, R33 and R34 GT-R performance builds. Gold Coast, Queensland.">
-<meta property="og:title" content="BNR Motorsports — Nissan Skyline GT-R Performance Builds">
-<meta property="og:description" content="Bespoke, road-legal Nissan Skyline R32, R33 and R34 GT-R performance builds. Gold Coast, Queensland.">
-<meta property="og:image" content="https://jonwbalaam.github.io/bnr-motorsports-website/assets/cover.jpg">
-<meta property="og:url" content="https://jonwbalaam.github.io/bnr-motorsports-website/">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BNR Motorsports — Nissan Skyline GT-R Performance Builds">
-<meta name="twitter:description" content="Bespoke, road-legal Nissan Skyline R32, R33 and R34 GT-R performance builds. Gold Coast, Queensland.">
-<meta name="twitter:image" content="https://jonwbalaam.github.io/bnr-motorsports-website/assets/cover.jpg">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -30,9 +19,26 @@
   a{ color:inherit; }
   html{ scroll-behavior:smooth; }
   @keyframes datum-build-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+  @keyframes compliance-panel-in { from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:translateY(0); } }
   @media (max-width:720px){
     #enquire-info { text-align:center; }
     #enquire-note, #enquire-form { margin-left:auto; margin-right:auto; }
+  }
+  .step-num{ display:inline-flex; align-items:center; justify-content:center; background:transparent; border:1px solid oklch(0.87 0.185 100 / 0.5); transform:skewX(-10deg); transition:background-color .25s cubic-bezier(0.16,1,0.3,1), border-color .25s cubic-bezier(0.16,1,0.3,1), transform .25s cubic-bezier(0.16,1,0.3,1); }
+  .step-num span{ display:inline-block; transform:skewX(10deg); font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:800; color:oklch(0.87 0.185 100); transition:color .25s cubic-bezier(0.16,1,0.3,1); }
+  .step:hover .step-num{ background:oklch(0.87 0.185 100); border-color:oklch(0.87 0.185 100); transform:skewX(-10deg) scale(1.15); }
+  .step:hover .step-num span{ color:#0a0c10; }
+  .compliance-path{ transform-box:fill-box; transform-origin:center; fill:#0e1118; stroke:#2a3040; stroke-width:1.6; cursor:pointer; filter:none; transform:scale(1); transition:fill .16s, stroke .16s, filter .16s, transform .25s cubic-bezier(0.16,1,0.3,1); }
+  .compliance-path:hover{ fill:oklch(0.87 0.185 100 / 0.3); stroke:oklch(0.87 0.185 100); filter:drop-shadow(0 0 16px oklch(0.87 0.185 100 / 0.85)); }
+  .compliance-path.is-active{ fill:oklch(0.87 0.185 100); stroke:oklch(0.87 0.185 100); filter:drop-shadow(0 0 10px oklch(0.87 0.185 100 / 0.65)); }
+  .compliance-path.is-active:hover{ filter:drop-shadow(0 0 20px oklch(0.87 0.185 100 / 0.9)); }
+  .compliance-label{ fill:#9aa0ad; font-family:'Sora',sans-serif; font-size:20px; font-weight:400; letter-spacing:.03em; text-anchor:middle; text-transform:uppercase; cursor:pointer; pointer-events:none; transition:fill .16s; }
+  .compliance-label.is-active{ fill:#0a0c10; font-weight:700; }
+  [data-reveal]{ transition:opacity .8s cubic-bezier(0.16,1,0.3,1), transform .7s cubic-bezier(0.16,1,0.3,1); }
+  @media (prefers-reduced-motion:reduce){
+    .step-num, .step-num span{ transition:none; }
+    .compliance-path, .compliance-label{ transition:none !important; }
+    [data-reveal]{ transition:none !important; opacity:1 !important; transform:none !important; }
   }
 </style>
 </helmet>
@@ -50,7 +56,7 @@
 
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex; align-items:center; gap:clamp(16px,2.6vw,34px); font-size:13px; font-weight:400;">
-        <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
+        <a href="Stock.dc.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
         <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
         <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
         <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">About</a>
@@ -75,7 +81,7 @@
 
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="background:#0a0c10; border-bottom:1px solid #1a1e28; padding:8px clamp(16px,4vw,48px) 20px; display:flex; flex-direction:column;">
-      <a href="stock.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
+      <a href="Stock.dc.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
       <a href="#how" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">How it works</a>
       <a href="#compliance" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Compliance</a>
       <a href="#mission" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">About</a>
@@ -113,7 +119,7 @@
   </section>
 
   <!-- THE BNR MISSION -->
-  <section id="mission" data-screen-label="Mission" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
+  <section id="mission" data-screen-label="Mission" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; opacity:{{ revealMission.opacity }}; transform:{{ revealMission.transform }};">
     <div style="position:absolute; right:6%; top:0; width:620px; height:620px; background:radial-gradient(circle, oklch(0.87 0.185 100 / 0.08) 0%, transparent 62%); pointer-events:none;"></div>
     <div style="position:relative; max-width:1360px; margin:0 auto; padding:clamp(56px,8vw,128px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(48px,9vw,140px); align-items:center;">
 
@@ -152,26 +158,74 @@
   </section>
 
   <!-- HOW IT WORKS -->
-  <section id="how" data-screen-label="How it works" style="border-top:1px solid #1a1e28;">
-    <div style="max-width:1200px; margin:0 auto; padding:clamp(46px,7vw,96px) clamp(16px,4vw,48px);">
-      <div style="text-align:center; margin-bottom:clamp(34px,4vw,54px);">
-        <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:16px;">How it works</div>
-        <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.5vw,64px); letter-spacing:0.005em; margin:0; color:#fff;">Three steps from enquiry to keys in hand</h2>
-      </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
-        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
-          <div style="background:#0e1118; border:1px solid #1e2330; border-radius:4px; padding:clamp(24px,2.6vw,32px);" style-hover="border-color:#2a3040">
-            <div style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; font-size:44px; color:oklch(0.87 0.185 100); line-height:1; text-shadow:0 0 26px oklch(0.87 0.185 100 / 0.35);">{{ st.n }}</div>
-            <h3 style="font-size:20px; font-weight:600; margin:16px 0 10px; color:#fff;">{{ st.title }}</h3>
-            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0;">{{ st.body }}</p>
+  <section id="how" data-screen-label="How it works" data-reveal="true" style="border-top:1px solid #1a1e28; opacity:{{ revealHow.opacity }}; transform:{{ revealHow.transform }};">
+    <div style="max-width:1100px; margin:0 auto; padding:clamp(46px,7vw,96px) clamp(16px,4vw,48px);">
+      <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.5vw,64px); line-height:0.95; letter-spacing:0.005em; margin:0 0 clamp(40px,5vw,64px); max-width:640px; color:#fff;">Three steps from enquiry to keys in hand</h2>
+
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; align-items:flex-start;">
+        <div class="step" style="position:relative; flex:1; min-width:0; padding-right:28px;">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:150px; height:150px; opacity:0.16; filter:drop-shadow(0 0 22px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><rect x="5" y="3.5" width="14" height="17" rx="1.5"></rect><path d="M9 3.5V3a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 3v.5"></path><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4.5"></path></svg>
+          <div style="position:relative;">
+            <div class="step-num" style="padding:5px 12px; margin-bottom:22px;"><span style="font-size:17px;">01</span></div>
+            <h3 style="font-size:19px; font-weight:600; margin:0 0 10px; color:#fff;">Spec</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:36ch;">We sit down with you and the car, understand your dream build and your state's legislation, then spec the build with you, live.</p>
           </div>
-        </sc-for>
+        </div>
+        <div style="width:1px; height:120px; background:#1e2330; transform:skewX(-12deg); margin:0 24px; flex-shrink:0;"></div>
+        <div class="step" style="position:relative; flex:1; min-width:0; padding:0 28px; transform:translateY(30px);">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:150px; height:150px; opacity:0.16; filter:drop-shadow(0 0 22px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><path d="M14.5 6.5a4 4 0 0 0-5.6 5l-6 6 2.6 2.6 6-6a4 4 0 0 0 5-5.6l-2.6 2.6-2-2z"></path></svg>
+          <div style="position:relative;">
+            <div class="step-num" style="padding:4px 11px; margin-bottom:22px;"><span style="font-size:17px;">02</span></div>
+            <h3 style="font-size:19px; font-weight:600; margin:0 0 10px; color:#fff;">Build</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:36ch;">We carry out the work in-house and deliver your dream car, with full documentation and consultation at every step, for complete transparency.</p>
+          </div>
+        </div>
+        <div style="width:1px; height:120px; background:#1e2330; transform:skewX(-12deg); margin:0 24px; flex-shrink:0;"></div>
+        <div class="step" style="position:relative; flex:1; min-width:0; padding-left:28px;">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:150px; height:150px; opacity:0.16; filter:drop-shadow(0 0 22px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><path d="M2 7h11v8H2z"></path><path d="M13 10h4.5L20 13v2h-7z"></path><circle cx="6.5" cy="17.5" r="1.6"></circle><circle cx="16.5" cy="17.5" r="1.6"></circle><path d="M4.9 17.5h9.6M18.1 17.5H20"></path></svg>
+          <div style="position:relative;">
+            <div class="step-num" style="padding:4px 11px; margin-bottom:22px;"><span style="font-size:17px;">03</span></div>
+            <h3 style="font-size:19px; font-weight:600; margin:0 0 10px; color:#fff;">Deliver</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:36ch;">Your car is delivered in fully engineerable form, ready to go and enjoy, without the headache.</p>
+          </div>
+        </div>
       </div>
+      </sc-if>
+
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex; flex-direction:column; gap:28px;">
+        <div class="step" style="position:relative; display:flex; gap:16px; align-items:flex-start; padding-bottom:6px;">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:112px; height:112px; opacity:0.16; filter:drop-shadow(0 0 18px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><rect x="5" y="3.5" width="14" height="17" rx="1.5"></rect><path d="M9 3.5V3a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 3v.5"></path><path d="M8.5 10h7M8.5 13.5h7M8.5 17h4.5"></path></svg>
+          <div class="step-num" style="flex-shrink:0; padding:4px 10px;"><span style="font-size:15px;">01</span></div>
+          <div style="position:relative; padding-top:3px;">
+            <h3 style="font-size:17px; font-weight:600; margin:0 0 8px; color:#fff;">Spec</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0;">We sit down with you and the car, understand your dream build and your state's legislation, then spec the build with you, live.</p>
+          </div>
+        </div>
+        <div class="step" style="position:relative; display:flex; gap:16px; align-items:flex-start; padding-bottom:6px;">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:112px; height:112px; opacity:0.16; filter:drop-shadow(0 0 18px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><path d="M14.5 6.5a4 4 0 0 0-5.6 5l-6 6 2.6 2.6 6-6a4 4 0 0 0 5-5.6l-2.6 2.6-2-2z"></path></svg>
+          <div class="step-num" style="flex-shrink:0; padding:3px 9px;"><span style="font-size:15px;">02</span></div>
+          <div style="position:relative; padding-top:3px;">
+            <h3 style="font-size:17px; font-weight:600; margin:0 0 8px; color:#fff;">Build</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0;">We carry out the work in-house and deliver your dream car, with full documentation and consultation at every step, for complete transparency.</p>
+          </div>
+        </div>
+        <div class="step" style="position:relative; display:flex; gap:16px; align-items:flex-start; padding-bottom:6px;">
+          <svg style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:112px; height:112px; opacity:0.16; filter:drop-shadow(0 0 18px oklch(0.87 0.185 100 / 0.55)); pointer-events:none;" viewBox="0 0 24 24" fill="none" stroke="oklch(0.87 0.185 100)" stroke-width="1"><path d="M2 7h11v8H2z"></path><path d="M13 10h4.5L20 13v2h-7z"></path><circle cx="6.5" cy="17.5" r="1.6"></circle><circle cx="16.5" cy="17.5" r="1.6"></circle><path d="M4.9 17.5h9.6M18.1 17.5H20"></path></svg>
+          <div class="step-num" style="flex-shrink:0; padding:3px 9px;"><span style="font-size:15px;">03</span></div>
+          <div style="position:relative; padding-top:3px;">
+            <h3 style="font-size:17px; font-weight:600; margin:0 0 8px; color:#fff;">Deliver</h3>
+            <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0;">Your car is delivered in fully engineerable form, ready to go and enjoy, without the headache.</p>
+          </div>
+        </div>
+      </div>
+      </sc-if>
     </div>
   </section>
 
   <!-- PREVIOUS BUILDS -->
-  <section id="build" data-screen-label="Previous builds" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0;">
+  <section id="build" data-screen-label="Previous builds" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0; opacity:{{ revealBuild.opacity }}; transform:{{ revealBuild.transform }};">
 
     <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
     <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px);">
@@ -203,12 +257,12 @@
   </section>
 
   <!-- COMPLIANCE MAP -->
-  <section id="compliance" data-screen-label="Compliance" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
+  <section id="compliance" data-screen-label="Compliance" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; opacity:{{ revealCompliance.opacity }}; transform:{{ revealCompliance.transform }};">
     <div style="position:absolute; left:22%; top:40%; width:640px; height:640px; transform:translate(-50%,-50%); background:radial-gradient(circle, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
     <div style="position:relative; max-width:1200px; margin:0 auto; padding:clamp(46px,7vw,100px) clamp(16px,4vw,48px);">
       <div style="text-align:center; margin-bottom:clamp(34px,4vw,52px);">
         <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.5vw,64px); letter-spacing:0.005em; margin:0 0 14px; color:#fff; text-shadow:0 0 50px oklch(0.87 0.185 100 / 0.2);">Delivered legal — in every state</h2>
-        <p style="font-size:15px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0 auto; max-width:56ch;">Engineering-certification rules differ by state. Select yours to see the pathway your build is certified through.</p>
+        <p style="font-size:15px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0 auto; max-width:56ch;">Engineering-certification rules differ by state. Hover to preview, click a state to see the pathway your build is certified through.</p>
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:clamp(28px,4vw,56px); align-items:start;">
@@ -216,17 +270,17 @@
         <div style="display:flex; flex-direction:column; align-items:center;">
           <svg viewBox="0 20 500 460" style="width:100%; max-width:420px; display:block; overflow:visible;">
             <sc-for list="{{ states }}" as="s" hint-placeholder-count="8">
-              <path onClick="{{ s.onSel }}" d="{{ s.path }}" style="fill:{{ s.tileBg }}; stroke:{{ s.tileBorder }}; stroke-width:1.6; cursor:pointer; filter:{{ s.tileGlow }}; transition:fill .16s, stroke .16s, filter .16s;" style-hover="stroke:oklch(0.87 0.185 100)"></path>
+              <path class="compliance-path {{ s.activeClass }}" onClick="{{ s.onSel }}" d="{{ s.path }}"></path>
             </sc-for>
             <sc-for list="{{ states }}" as="s" hint-placeholder-count="8">
-              <text x="{{ s.labelX }}" y="{{ s.labelY }}" onClick="{{ s.onSel }}" style="fill:{{ s.tileFg }}; font-family:'Sora',sans-serif; font-size:20px; font-weight:{{ s.tileWeight }}; letter-spacing:.03em; text-anchor:middle; text-transform:uppercase; cursor:pointer; pointer-events:none;">{{ s.code }}</text>
+              <text class="compliance-label {{ s.activeClass }}" x="{{ s.labelX }}" y="{{ s.labelY }}" onClick="{{ s.onSel }}">{{ s.code }}</text>
             </sc-for>
           </svg>
-          <div style="font-size:10px; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:#6b7280; margin-top:18px;">Interactive map — click a state</div>
+          <div style="font-size:10px; font-weight:400; letter-spacing:.16em; text-transform:uppercase; color:#6b7280; margin-top:18px;">Interactive map — hover or click a state</div>
         </div>
 
         <!-- detail panel -->
-        <div style="background:#0e1118; border:1px solid #1e2330; border-radius:4px; padding:clamp(24px,3vw,36px); box-shadow:0 0 50px oklch(0.87 0.185 100 / 0.06);">
+        <div key="{{ aCode }}" style="background:#0e1118; border:1px solid #1e2330; border-radius:4px; padding:clamp(24px,3vw,36px); box-shadow:0 0 50px oklch(0.87 0.185 100 / 0.06); animation:compliance-panel-in .35s cubic-bezier(0.16,1,0.3,1);">
           <div style="display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:6px;">
             <div style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(28px,3.6vw,44px); color:#fff; line-height:1;">{{ aName }}</div>
             <div style="font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:oklch(0.87 0.185 100);">{{ aCode }}</div>
@@ -241,20 +295,20 @@
 
   <!-- CURRENT STOCK PREVIEW -->
   <!-- STOCK:START -->
-  <section id="stock" data-screen-label="Current stock" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0;">
+  <section id="stock" data-screen-label="Current stock" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0; opacity:{{ revealStock.opacity }}; transform:{{ revealStock.transform }};">
     <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px); display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
       <div>
         <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:14px;">For sale now</div>
         <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.6vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Current stock.</h2>
         <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Finished builds and clean cars ready to go, updated straight from our listings.</p>
       </div>
-      <a href="stock.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
+      <a href="Stock.dc.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
     </div>
 
     <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
       <div style="display:flex; gap:clamp(14px,1.8vw,22px); width:max-content; animation:datum-build-scroll 40s linear infinite;">
         <sc-for list="{{ stockPreview }}" as="car" hint-placeholder-count="8">
-          <a href="stock.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
+          <a href="Stock.dc.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
             <div style="position:relative; aspect-ratio:4/3; background:#12151c; overflow:hidden;">
               <img ref="{{ car.setPhotoRef }}" alt="{{ car.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
               <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,10,0.05) 0%, rgba(6,7,10,0.55) 100%); pointer-events:none;"></div>
@@ -273,7 +327,7 @@
 
 
   <!-- ENQUIRE -->
-  <section id="enquire" data-screen-label="Enquire" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden;">
+  <section id="enquire" data-screen-label="Enquire" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; opacity:{{ revealEnquire.opacity }}; transform:{{ revealEnquire.transform }};">
     <div style="position:absolute; left:50%; top:0; width:900px; height:500px; transform:translateX(-50%); background:radial-gradient(ellipse at top, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
     <div style="position:relative; max-width:1320px; margin:0 auto; padding:clamp(56px,8vw,120px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(48px,9vw,140px); align-items:start;">
       <div id="enquire-info">
@@ -286,6 +340,8 @@
       <div id="enquire-form" style="background:#0e1118; border:1px solid #1e2330; border-radius:6px; padding:clamp(28px,3.4vw,40px); box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 50px oklch(0.87 0.185 100 / 0.06); width:100%; max-width:520px;">
         <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
         <form action="https://formspree.io/f/mjgqpbnk" method="POST" onSubmit="{{ onSubmit }}" style="display:flex; flex-direction:column; gap:16px;">
+          <input type="hidden" name="_subject" value="New BNR consultation enquiry">
+          <input type="hidden" name="_replyto" value="{{ contact }}">
           <div style="display:flex; flex-direction:column; gap:7px;">
             <label style="font-size:11px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:#9aa0ad;">Your name</label>
             <input name="name" value="{{ name }}" onInput="{{ onName }}" placeholder="Full name" style="font-family:'Sora'; font-size:16px; font-weight:300; color:#e8e9ec; padding:13px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
@@ -311,8 +367,8 @@
             <input name="contact" value="{{ contact }}" onInput="{{ onContact }}" placeholder="How we reach you" style="font-family:'Sora'; font-size:16px; font-weight:300; color:#e8e9ec; padding:13px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
           </div>
           <div style="display:flex; flex-direction:column; gap:7px;">
-            <label style="font-size:11px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:#9aa0ad;">Tell us about your car</label>
-            <textarea name="message" value="{{ carNotes }}" onInput="{{ onCar }}" placeholder="Current spec, condition, your power goal…" rows="4" style="font-family:'Sora'; font-size:16px; font-weight:300; color:#e8e9ec; padding:13px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none; resize:vertical;"></textarea>
+            <label style="font-size:11px; font-weight:400; letter-spacing:.12em; text-transform:uppercase; color:#9aa0ad;">Tell us about your car and your goals</label>
+            <textarea name="message" value="{{ carNotes }}" onInput="{{ onCar }}" placeholder="Current spec, condition, and what you want out of the build…" rows="4" style="font-family:'Sora'; font-size:16px; font-weight:300; color:#e8e9ec; padding:13px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none; resize:vertical;"></textarea>
           </div>
 
           <sc-if value="{{ submitError }}" hint-placeholder-val="{{ false }}">
@@ -326,7 +382,7 @@
         <div>
           <div style="font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:oklch(0.78 0.12 165); margin-bottom:14px;">✓ Enquiry received</div>
           <h3 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:32px; margin:0 0 14px; color:#fff; letter-spacing:0.005em;">{{ successHeading }}</h3>
-          <p style="font-size:14.5px; font-weight:300; line-height:1.65; color:#9aa0ad; margin:0 0 18px;">Thanks for the details on your {{ platformLabel }}{{ regionTail }}. We'll review it and come back to arrange an inspection — no price is generated here.</p>
+          <p style="font-size:14.5px; font-weight:300; line-height:1.65; color:#9aa0ad; margin:0 0 18px;">Thanks for the details on your {{ platformLabel }}{{ regionTail }} and what you're after. We'll review it and come back to arrange an inspection — no price is generated here.</p>
           <div style="font-size:12px; font-weight:300; line-height:1.6; color:#6b7280; border:1px solid #1e2330; border-radius:4px; padding:14px; background:#0a0c10;">Next: inspection → engineer-designed spec → certified build → delivered road-legal.</div>
           <button onClick="{{ onReset }}" style="margin-top:18px; font-size:12px; font-weight:500; letter-spacing:.04em; cursor:pointer; background:transparent; color:#e8e9ec; border:1px solid #2a3040; padding:12px 18px; border-radius:4px;" style-hover="border-color:oklch(0.87 0.185 100)">Edit enquiry</button>
         </div>
@@ -336,7 +392,7 @@
   </section>
 
   <!-- WE'RE HIRING -->
-  <section id="hiring" data-screen-label="We're hiring" style="position:relative; border-top:1px solid #1a1e28; background:#080a0d; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 12px); overflow:hidden;">
+  <section id="hiring" data-screen-label="We're hiring" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; background:#080a0d; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 12px); overflow:hidden; opacity:{{ revealHiring.opacity }}; transform:{{ revealHiring.transform }};">
     <div style="position:relative; max-width:720px; margin:0 auto; padding:clamp(56px,8vw,100px) clamp(16px,4vw,48px); display:flex; flex-direction:column; align-items:center; text-align:center;">
       <div style="width:34px; height:2px; background:oklch(0.87 0.185 100); margin-bottom:20px;"></div>
       <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:16px;">Careers at BNR</div>
@@ -351,6 +407,8 @@
       <div style="width:100%; max-width:440px; margin-top:32px; text-align:left;">
         <sc-if value="{{ hireNotSubmitted }}" hint-placeholder-val="{{ true }}">
         <form action="https://formspree.io/f/mjgqpbnk" method="POST" onSubmit="{{ onHireSubmit }}" style="display:flex; flex-direction:column; gap:14px;">
+          <input type="hidden" name="_subject" value="New BNR careers application">
+          <input type="hidden" name="_replyto" value="{{ hireContact }}">
           <input name="name" value="{{ hireName }}" onInput="{{ onHireName }}" placeholder="Full name" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
           <input name="contact" value="{{ hireContact }}" onInput="{{ onHireContact }}" placeholder="Phone or email" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
           <input name="experience" value="{{ hireYears }}" onInput="{{ onHireYears }}" placeholder="Years of GT-R / RB experience" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
@@ -380,7 +438,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer style="border-top:1px solid #1a1e28; background:#080a0d;">
+  <footer id="site-footer" data-reveal="true" style="border-top:1px solid #1a1e28; background:#080a0d; opacity:{{ revealFooter.opacity }}; transform:{{ revealFooter.transform }};">
     <div style="max-width:1200px; margin:0 auto; padding:clamp(44px,5vw,68px) clamp(16px,4vw,48px);">
       <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:clamp(28px,5vw,48px);">
         <div style="min-width:0;">
@@ -389,7 +447,7 @@
         <div style="min-width:0;">
           <div style="font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:#6b7280; margin-bottom:14px;">Explore</div>
           <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; font-weight:300;">
-            <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
+            <a href="Stock.dc.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
             <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Mission</a>
             <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
             <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
@@ -416,12 +474,9 @@
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;defaultState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;NSW&quot;,&quot;VIC&quot;,&quot;QLD&quot;,&quot;SA&quot;,&quot;WA&quot;,&quot;TAS&quot;,&quot;ACT&quot;,&quot;NT&quot;],&quot;default&quot;:&quot;QLD&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Compliance map&quot;}}">
+<script type="text/x-dc" data-dc-script>
 // Per-state engineering-certification pathways for AU modified-vehicle rego.
 // Honest, general descriptions of each state's real scheme. No invented metrics.
-// Inlined (rather than a separate compliance-data.js) so this file has no
-// external-file dependency — works over plain file://, inside CMS "paste HTML"
-// embeds, and on any static host with no MIME/CORS setup required.
 const COMPLIANCE_STATES = [
   { code:'WA', name:'Western Australia', labelX:119, labelY:233,
     path:'m 166.2,72.77 c -2.1,0.12 -0.6,3.24 -2.8,3.41 -1.2,0.62 -2.8,1.6 -3.8,0.41 -1.3,0.81 -2.2,3.21 -2.9,0.46 -0.1,-0.96 -1.5,-1.41 -0.9,0 1.8,2.73 -0.2,6.65 -3.2,7.15 -0.4,-0.4 0,-1.9 -1.3,-1.2 -1.6,0.6 -3.6,0.9 -5,1.7 0.1,2 1.2,4.1 1,6 -1.3,0.4 -3.3,-1.6 -4.1,-0.3 -0.8,1.7 0.4,3.7 0.1,5.2 -1.7,-1.1 -4.6,-0.8 -5,1.3 0.7,2 1.3,4.1 -0.5,5.7 -1.2,1.3 -2.6,4.5 0.1,5 0.9,0.9 -0.1,3.1 -1.5,2.2 -3,0.3 -4.1,-2.7 -6.3,-3.7 -2.2,-0.4 -5.2,-1 -4.2,2.3 -0.7,2.5 1,4.2 2.4,5.9 0.6,1 1.9,3.9 -0.4,3.5 -1.8,1.1 -0.6,4.6 -1.7,5.9 -3.4,-3.9 -5.6,-9 -8.7,-12.8 -1,3.1 -3.2,6.3 -6.5,7.4 -0.8,2 -2,4.5 -1.4,6.6 0.6,2.2 2.5,4.6 2.4,6.8 -2,2.5 -3.8,5.3 -6.4,7.1 -1.6,3.8 -2,8.4 -5.6,11.3 -1.79,2 -3.27,4.4 -6.14,4.8 -5.48,1.9 -10.65,5 -16.39,5.9 -2.61,-0.7 -4.83,-0.5 -6.18,2.1 -2.73,3.8 -8.08,3.2 -11.56,6 -2.65,1.4 -4.96,4.2 -8.26,3.2 -2.95,0.3 -6.51,-1.3 -8.61,1.4 -4.31,3.3 -8.46,6.8 -10.98,11.6 -1.75,2.8 -5.58,2.8 -7.83,5.1 -4.52,2.2 -4.8,7.7 -7.53,11.4 -1.97,0.4 -1.57,-2.9 -1.75,-4.2 -0.28,-1.3 0.45,-3.4 -0.38,-4.4 -2.41,2.5 -2.69,6.4 -3.15,9.7 -0.35,2.8 2.5,4.8 2.33,7.7 1.48,4 -1.63,7.3 -2.81,11 -0.37,4 1.27,8.2 3.92,11.4 2.84,4.6 6.88,8.5 9.25,13.3 0.59,2.4 0.55,5.4 -0.95,7.3 -2.25,0.4 -1.58,-3.1 -3.07,-3.4 -1.35,1.4 1.12,3.7 1.55,5.1 -1.45,1.7 -4.91,1.7 -5.28,-0.9 -0.32,-0.8 -1.88,-2.9 -2.81,-2.3 2.25,4.7 7.19,7 10.54,10.7 3.43,5 3.98,11.3 8.03,15.9 2.49,4 6.06,7.3 7.88,11.6 1.98,6 2.48,12.5 6.35,17.7 2.87,5 6.25,9.9 8.78,15 0.3,5.5 1.08,11 2.08,16.3 -0.3,2.4 -1.3,4.5 -1.91,6.7 -2.48,0 -4.82,0 -3.33,3 0.82,1.6 0,5.2 2.07,5.4 5.91,-0.2 9,6.9 14.96,6.4 1.08,0.4 1.69,1.7 3.08,1 2.96,-0.1 6.09,-1.6 8.96,-0.7 1.3,1.4 4.04,0.5 3.83,-1.5 1.56,-0.5 3.65,-0.1 4.6,-2 2.48,-2.9 4.66,-6.6 8.87,-7 2.84,-0.5 2.14,-4.3 4.54,-5.6 2.5,-3.3 7,-2.5 10.6,-3.5 4.9,-0.5 9.7,-2.2 14.6,-1.8 3,2 6.7,-0.3 10,-0.5 2.3,-0.8 5.3,-0.6 7.3,-1.9 1.7,-3.2 2.7,-6.6 4,-10 6.8,-3.3 13.3,-7.3 19.5,-11.7 5.9,-1.3 12.1,0.1 17.9,-2 5.3,-1 10.3,-3.5 14.4,-6.8 0.3,-13.9 -0.9,-27.7 -1.3,-41.6 -2.4,-59.9 -4.2,-119.7 -6.3,-179.6 -1.8,0.2 -4.8,-1.2 -5.5,1.3 -1.8,0.2 -4.1,1.2 -3.9,3.5 -0.1,1.4 -0.9,0.8 -0.7,-0.3 -0.6,-2.6 1.1,-6 -1.6,-7.5 -3.8,-3.82 -7.7,-8.13 -13.2,-9.23 -0.8,-0.2 -1.6,-0.42 -2.3,-0.38 z',
@@ -494,6 +549,7 @@ class Component extends DCLogic {
       hireSubmitting:false, hireSubmitError:false, hireFormOpen:false,
       isMobile: typeof window !== 'undefined' ? window.innerWidth < 720 : false,
       menuOpen: false,
+      revealed: {},
     };
   }
   componentDidMount(){
@@ -502,26 +558,46 @@ class Component extends DCLogic {
       if (isMobile !== this.state.isMobile) this.setState({ isMobile });
     };
     window.addEventListener('resize', this._onResize, { passive:true });
+
+    const revealIds = ['mission','how','build','compliance','stock','enquire','hiring','site-footer'];
+    const keyFor = (elId) => (elId === 'site-footer' ? 'footer' : elId);
+    const revealAllNow = () => {
+      const allRevealed = {};
+      revealIds.forEach((elId) => { allRevealed[keyFor(elId)] = true; });
+      this.setState({ revealed: allRevealed });
+    };
+    if (typeof IntersectionObserver === 'undefined') { revealAllNow(); return; }
+
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-reveal-id');
+          if (id) this.setState((s) => (s.revealed[id] ? null : { revealed: { ...s.revealed, [id]: true } }));
+          this._io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    let anyFound = false;
+    revealIds.forEach((elId) => {
+      const el = document.getElementById(elId);
+      if (el) { anyFound = true; el.setAttribute('data-reveal-id', keyFor(elId)); this._io.observe(el); }
+    });
+    if (!anyFound) revealAllNow();
   }
   componentWillUnmount(){
     if (this._onResize) window.removeEventListener('resize', this._onResize);
+    if (this._io) this._io.disconnect();
   }
   hideBrokenImage = (e) => { e.currentTarget.style.display = 'none'; };
   renderVals(){
     const s = this.state;
     const yellow = 'oklch(0.87 0.185 100)';
-    const steps = [
-      { n:'01', title:'Spec', body:'We sit down with you and the car, understand your dream build and your state\'s legislation, then spec the build with you, live.' },
-      { n:'02', title:'Build', body:'We carry out the work in-house and deliver your dream car, with full documentation and consultation at every step, for complete transparency.' },
-      { n:'03', title:'Deliver', body:'Your car is delivered in fully engineerable form, ready to go and enjoy, without the headache.' },
-    ];
     const states = COMPLIANCE_STATES.map(st => {
       const on = st.code === s.active;
       return { code:st.code, name:st.name, path:st.path, labelX:st.labelX, labelY:st.labelY,
         onSel:()=>this.setState({ active:st.code }),
-        tileBg: on?yellow:'#0e1118', tileBorder: on?yellow:'#2a3040',
-        tileFg: on?'#0a0c10':'#9aa0ad', tileWeight: on?'700':'400',
-        tileGlow: on?'drop-shadow(0 0 10px oklch(0.87 0.185 100 / 0.65))':'none' };
+        activeClass: on ? 'is-active' : '' };
     });
     const a = getComplianceState(s.active);
     const yellow2 = yellow;
@@ -540,9 +616,17 @@ class Component extends DCLogic {
     }));
 
     return {
-      steps, states,
+      states,
       isMobile: s.isMobile, isDesktop: !s.isMobile,
       menuOpen: s.menuOpen, toggleMenu, closeMenu, menuBarTop, menuBarBottom, menuBarMidOpacity,
+      revealMission: { opacity: s.revealed.mission?1:0, transform: s.revealed.mission?'translateY(0)':'translateY(28px)' },
+      revealHow: { opacity: s.revealed.how?1:0, transform: s.revealed.how?'translateY(0)':'translateY(28px)' },
+      revealBuild: { opacity: s.revealed.build?1:0, transform: s.revealed.build?'translateY(0)':'translateY(28px)' },
+      revealCompliance: { opacity: s.revealed.compliance?1:0, transform: s.revealed.compliance?'translateY(0)':'translateY(28px)' },
+      revealStock: { opacity: s.revealed.stock?1:0, transform: s.revealed.stock?'translateY(0)':'translateY(28px)' },
+      revealEnquire: { opacity: s.revealed.enquire?1:0, transform: s.revealed.enquire?'translateY(0)':'translateY(28px)' },
+      revealHiring: { opacity: s.revealed.hiring?1:0, transform: s.revealed.hiring?'translateY(0)':'translateY(28px)' },
+      revealFooter: { opacity: s.revealed.footer?1:0, transform: s.revealed.footer?'translateY(0)':'translateY(28px)' },
       buildImages, successHeading,
       stockPreview: STOCK_PREVIEW.map((car, i) => ({
         key: i, title: car.title, priceLabel: car.priceLabel, status: car.status,
