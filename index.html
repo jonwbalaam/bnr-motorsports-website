@@ -24,6 +24,9 @@
     #enquire-info { text-align:center; }
     #enquire-note, #enquire-form { margin-left:auto; margin-right:auto; }
   }
+  @media (min-width:721px){
+    [data-bay-frame]{ aspect-ratio:auto; height:100%; }
+  }
   .step-num{ display:inline-flex; align-items:center; justify-content:center; background:transparent; border:1px solid oklch(0.87 0.185 100 / 0.5); transform:skewX(-10deg); transition:background-color .25s cubic-bezier(0.16,1,0.3,1), border-color .25s cubic-bezier(0.16,1,0.3,1), transform .25s cubic-bezier(0.16,1,0.3,1); }
   .step-num span{ display:inline-block; transform:skewX(10deg); font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:800; color:oklch(0.87 0.185 100); transition:color .25s cubic-bezier(0.16,1,0.3,1); }
   .step:hover .step-num{ background:oklch(0.87 0.185 100); border-color:oklch(0.87 0.185 100); transform:skewX(-10deg) scale(1.15); }
@@ -39,6 +42,7 @@
     .step-num, .step-num span{ transition:none; }
     .compliance-path, .compliance-label{ transition:none !important; }
     [data-reveal]{ transition:none !important; opacity:1 !important; transform:none !important; }
+    [data-bay-frame] *{ transition:none !important; }
   }
 </style>
 </helmet>
@@ -121,13 +125,16 @@
   <!-- THE BNR MISSION -->
   <section id="mission" data-screen-label="Mission" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; opacity:{{ revealMission.opacity }}; transform:{{ revealMission.transform }};">
     <div style="position:absolute; right:6%; top:0; width:620px; height:620px; background:radial-gradient(circle, oklch(0.87 0.185 100 / 0.08) 0%, transparent 62%); pointer-events:none;"></div>
-    <div style="position:relative; max-width:1360px; margin:0 auto; padding:clamp(56px,8vw,128px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(48px,9vw,140px); align-items:center;">
+    <div style="position:relative; max-width:1360px; margin:0 auto; padding:clamp(56px,8vw,128px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(48px,9vw,140px); align-items:stretch;">
 
-      <!-- left: image placeholder -->
-      <div style="position:relative; aspect-ratio:4/5; border:1px solid #1e2330; border-radius:6px; overflow:hidden; background:#0e1118; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 12px); box-shadow:0 0 50px oklch(0.87 0.185 100 / 0.05);">
-        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center;">
-          <span style="font-family:'Sora'; font-size:11px; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:#4a5060;">Workshop / team photo</span>
-        </div>
+      <!-- left: before/after engine bay reveal (light-sweep) -->
+      <div data-bay-frame="true" style="position:relative; aspect-ratio:4/5; border:1px solid oklch(0.87 0.185 100 / 0.22); border-radius:6px; overflow:hidden; isolation:isolate; background:#0e1118; box-shadow:0 0 1px oklch(0.87 0.185 100 / 0.35), 0 0 60px oklch(0.87 0.185 100 / 0.22), 0 0 140px oklch(0.87 0.185 100 / 0.1), 0 30px 70px -25px rgba(0,0,0,0.65);">
+        <img src="assets/engine-bay-pre.jpg" alt="Stock RB26 engine bay before the BNR build" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:1;">
+        <img src="assets/engine-bay-post.jpg" alt="Built RB26 engine bay after the BNR build, NISMO blue valve cover" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:2; clip-path:{{ bayClipB }}; transition:clip-path 1s cubic-bezier(0.16,1,0.3,1);">
+        <div style="position:absolute; top:0; bottom:0; left:-8%; width:8%; z-index:3; background:linear-gradient(90deg, transparent, oklch(0.87 0.185 100 / 0.85) 45%, oklch(1 0.03 100 / 0.95) 50%, oklch(0.87 0.185 100 / 0.85) 55%, transparent); filter:blur(3px); mix-blend-mode:screen; pointer-events:none; transform:{{ bayBeamX }}; transition:transform 1s cubic-bezier(0.16,1,0.3,1);"></div>
+        <div style="position:absolute; left:0; right:0; bottom:0; height:38%; z-index:3; background:linear-gradient(to top, rgba(8,10,13,0.85), transparent); pointer-events:none;"></div>
+        <span style="position:absolute; left:18px; bottom:18px; z-index:4; display:inline-flex; align-items:center; font-family:'Sora'; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#9aa0ad; background:#12151c; border:1px solid #2a3040; border-radius:4px; padding:10px 18px; transform:skewX(-8deg); opacity:{{ bayTagAOpacity }}; transition:opacity .5s cubic-bezier(0.16,1,0.3,1);"><span style="display:inline-block; transform:skewX(8deg);">Stock</span></span>
+        <span style="position:absolute; left:18px; bottom:18px; z-index:4; display:inline-flex; align-items:center; font-family:'Sora'; font-size:13px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#0a0c10; background:oklch(0.87 0.185 100); border-radius:4px; padding:10px 18px; box-shadow:0 0 26px oklch(0.87 0.185 100 / 0.55); transform:skewX(-8deg); opacity:{{ bayTagBOpacity }}; transition:opacity .5s cubic-bezier(0.16,1,0.3,1);"><span style="display:inline-block; transform:skewX(8deg);">Built</span></span>
       </div>
 
       <!-- right: mission copy + stat grid -->
@@ -549,6 +556,7 @@ class Component extends DCLogic {
       hireSubmitting:false, hireSubmitError:false, hireFormOpen:false,
       isMobile: typeof window !== 'undefined' ? window.innerWidth < 720 : false,
       menuOpen: false,
+      bayIsB: false,
       revealed: {},
     };
   }
@@ -558,6 +566,8 @@ class Component extends DCLogic {
       if (isMobile !== this.state.isMobile) this.setState({ isMobile });
     };
     window.addEventListener('resize', this._onResize, { passive:true });
+    this._bayActive = true;
+    this._scheduleBaySwap();
 
     const revealIds = ['mission','how','build','compliance','stock','enquire','hiring','site-footer'];
     const keyFor = (elId) => (elId === 'site-footer' ? 'footer' : elId);
@@ -588,7 +598,16 @@ class Component extends DCLogic {
   componentWillUnmount(){
     if (this._onResize) window.removeEventListener('resize', this._onResize);
     if (this._io) this._io.disconnect();
+    this._bayActive = false;
+    if (this._bayTimer) clearTimeout(this._bayTimer);
   }
+  _scheduleBaySwap = () => {
+    this._bayTimer = setTimeout(() => {
+      if (!this._bayActive) return;
+      this.setState((s) => ({ bayIsB: !s.bayIsB }));
+      this._scheduleBaySwap();
+    }, 2700);
+  };
   hideBrokenImage = (e) => { e.currentTarget.style.display = 'none'; };
   renderVals(){
     const s = this.state;
@@ -606,6 +625,10 @@ class Component extends DCLogic {
     const menuBarTop = s.menuOpen ? 'rotate(45deg) translate(4px,4px)' : 'none';
     const menuBarBottom = s.menuOpen ? 'rotate(-45deg) translate(4px,-4px)' : 'none';
     const menuBarMidOpacity = s.menuOpen ? 0 : 1;
+    const bayClipB = s.bayIsB ? 'inset(0 0 0 0)' : 'inset(0 100% 0 0)';
+    const bayBeamX = s.bayIsB ? 'translateX(1450%)' : 'translateX(0%)';
+    const bayTagAOpacity = s.bayIsB ? 0 : 1;
+    const bayTagBOpacity = s.bayIsB ? 1 : 0;
 
     const successHeading = "We'll be in touch, " + (s.name ? s.name.split(' ')[0] : 'mate') + '.';
 
@@ -619,6 +642,7 @@ class Component extends DCLogic {
       states,
       isMobile: s.isMobile, isDesktop: !s.isMobile,
       menuOpen: s.menuOpen, toggleMenu, closeMenu, menuBarTop, menuBarBottom, menuBarMidOpacity,
+      bayClipB, bayBeamX, bayTagAOpacity, bayTagBOpacity,
       revealMission: { opacity: s.revealed.mission?1:0, transform: s.revealed.mission?'translateY(0)':'translateY(28px)' },
       revealHow: { opacity: s.revealed.how?1:0, transform: s.revealed.how?'translateY(0)':'translateY(28px)' },
       revealBuild: { opacity: s.revealed.build?1:0, transform: s.revealed.build?'translateY(0)':'translateY(28px)' },
