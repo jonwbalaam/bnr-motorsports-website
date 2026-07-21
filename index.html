@@ -24,6 +24,7 @@
     #enquire-info { text-align:center; }
     #enquire-note, #enquire-form { margin-left:auto; margin-right:auto; }
   }
+  [data-bay-frame]{ aspect-ratio:4/5; }
   @media (min-width:721px){
     [data-bay-frame]{ aspect-ratio:auto; height:100%; }
   }
@@ -128,7 +129,7 @@
     <div style="position:relative; max-width:1360px; margin:0 auto; padding:clamp(56px,8vw,128px) clamp(16px,4vw,48px); display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:clamp(48px,9vw,140px); align-items:stretch;">
 
       <!-- left: before/after engine bay reveal (light-sweep) -->
-      <div data-bay-frame="true" style="position:relative; aspect-ratio:4/5; border:1px solid oklch(0.87 0.185 100 / 0.22); border-radius:6px; overflow:hidden; isolation:isolate; background:#0e1118; box-shadow:0 0 1px oklch(0.87 0.185 100 / 0.35), 0 0 60px oklch(0.87 0.185 100 / 0.22), 0 0 140px oklch(0.87 0.185 100 / 0.1), 0 30px 70px -25px rgba(0,0,0,0.65);">
+      <div data-bay-frame="true" style="position:relative; border:1px solid oklch(0.87 0.185 100 / 0.22); border-radius:6px; overflow:hidden; isolation:isolate; background:#0e1118; box-shadow:0 0 1px oklch(0.87 0.185 100 / 0.35), 0 0 60px oklch(0.87 0.185 100 / 0.22), 0 0 140px oklch(0.87 0.185 100 / 0.1), 0 30px 70px -25px rgba(0,0,0,0.65);">
         <img src="assets/engine-bay-pre.jpg" alt="Stock RB26 engine bay before the BNR build" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:1;">
         <img src="assets/engine-bay-post.jpg" alt="Built RB26 engine bay after the BNR build, NISMO blue valve cover" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:2; clip-path:{{ bayClipB }}; transition:clip-path 1s cubic-bezier(0.16,1,0.3,1);">
         <div style="position:absolute; top:0; bottom:0; left:-8%; width:8%; z-index:3; background:linear-gradient(90deg, transparent, oklch(0.87 0.185 100 / 0.85) 45%, oklch(1 0.03 100 / 0.95) 50%, oklch(0.87 0.185 100 / 0.85) 55%, transparent); filter:blur(3px); mix-blend-mode:screen; pointer-events:none; transform:{{ bayBeamX }}; transition:transform 1s cubic-bezier(0.16,1,0.3,1);"></div>
