@@ -61,11 +61,9 @@
 
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex; align-items:center; gap:clamp(16px,2.6vw,34px); font-size:13px; font-weight:400;">
-        <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Stock</a>
         <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
         <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
         <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">About</a>
-        <a href="#hiring" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Careers</a>
         <a href="#enquire" style="text-decoration:none; color:#0a0c10; background:oklch(0.87 0.185 100); padding:9px 18px; border-radius:4px; font-weight:500; white-space:nowrap; flex-shrink:0; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">Enquire now</a>
       </div>
       </sc-if>
@@ -86,11 +84,9 @@
 
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <div style="background:#0a0c10; border-bottom:1px solid #1a1e28; padding:8px clamp(16px,4vw,48px) 20px; display:flex; flex-direction:column;">
-      <a href="stock.html" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Stock</a>
       <a href="#how" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">How it works</a>
       <a href="#compliance" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">Compliance</a>
-      <a href="#mission" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0; border-bottom:1px solid #1a1e28;">About</a>
-      <a href="#hiring" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0;">Careers</a>
+      <a href="#mission" onClick="{{ closeMenu }}" style="text-decoration:none; color:#e8e9ec; font-size:16px; padding:14px 0;">About</a>
     </div>
     </sc-if>
   </nav>
@@ -301,39 +297,6 @@
     </div>
   </section>
 
-  <!-- CURRENT STOCK PREVIEW -->
-  <!-- STOCK:START -->
-  <section id="stock" data-screen-label="Current stock" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; padding:clamp(56px,8vw,110px) 0; opacity:{{ revealStock.opacity }}; transform:{{ revealStock.transform }};">
-    <div style="padding:0 clamp(16px,4vw,48px); margin-bottom:clamp(24px,4vw,34px); display:flex; align-items:flex-end; justify-content:space-between; gap:20px; flex-wrap:wrap;">
-      <div>
-        <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:14px;">For sale now</div>
-        <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(34px,5.6vw,58px); line-height:0.95; letter-spacing:0.005em; margin:0 0 14px; color:#fff;">Current stock.</h2>
-        <p style="font-size:14.5px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0; max-width:48ch;">Finished builds and clean cars ready to go, updated straight from our listings.</p>
-      </div>
-      <a href="stock.html" style="flex-shrink:0; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; color:#0a0c10; background:oklch(0.87 0.185 100); padding:12px 22px; border-radius:4px; box-shadow:0 0 22px oklch(0.87 0.185 100 / 0.28);" style-hover="box-shadow:0 0 32px oklch(0.87 0.185 100 / 0.55)">View all stock →</a>
-    </div>
-
-    <div style="width:100vw; margin-left:calc(50% - 50vw); overflow:hidden;">
-      <div style="display:flex; gap:clamp(14px,1.8vw,22px); width:max-content; animation:datum-build-scroll 40s linear infinite;">
-        <sc-for list="{{ stockPreview }}" as="car" hint-placeholder-count="8">
-          <a href="stock.html" style="flex:0 0 auto; width:clamp(230px,26vw,300px); text-decoration:none; display:block; background:#0e1118; border:1px solid #1e2330; border-radius:8px; overflow:hidden;">
-            <div style="position:relative; aspect-ratio:4/3; background:#12151c; overflow:hidden;">
-              <img ref="{{ car.setPhotoRef }}" alt="{{ car.title }}" style="width:100%; height:100%; object-fit:cover; display:block;">
-              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(6,7,10,0.05) 0%, rgba(6,7,10,0.55) 100%); pointer-events:none;"></div>
-              <div style="position:absolute; top:10px; left:10px; font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:4px 9px; border-radius:20px; background:{{ car.badgeBg }}; color:{{ car.badgeFg }};">{{ car.status }}</div>
-              <div style="position:absolute; bottom:10px; left:13px; font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; font-size:21px; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.6);">{{ car.priceLabel }}</div>
-            </div>
-            <div style="padding:14px 15px 16px;">
-              <div style="font-size:14.5px; font-weight:600; color:#fff; line-height:1.3;">{{ car.title }}</div>
-            </div>
-          </a>
-        </sc-for>
-      </div>
-    </div>
-  </section>
-  <!-- STOCK:END -->
-
-
   <!-- ENQUIRE -->
   <section id="enquire" data-screen-label="Enquire" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; overflow:hidden; opacity:{{ revealEnquire.opacity }}; transform:{{ revealEnquire.transform }};">
     <div style="position:absolute; left:50%; top:0; width:900px; height:500px; transform:translateX(-50%); background:radial-gradient(ellipse at top, oklch(0.87 0.185 100 / 0.1) 0%, transparent 62%); pointer-events:none;"></div>
@@ -399,52 +362,6 @@
     </div>
   </section>
 
-  <!-- WE'RE HIRING -->
-  <section id="hiring" data-screen-label="We're hiring" data-reveal="true" style="position:relative; border-top:1px solid #1a1e28; background:#080a0d; background-image:repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 12px); overflow:hidden; opacity:{{ revealHiring.opacity }}; transform:{{ revealHiring.transform }};">
-    <div style="position:relative; max-width:720px; margin:0 auto; padding:clamp(56px,8vw,100px) clamp(16px,4vw,48px); display:flex; flex-direction:column; align-items:center; text-align:center;">
-      <div style="width:34px; height:2px; background:oklch(0.87 0.185 100); margin-bottom:20px;"></div>
-      <div style="font-size:12px; font-weight:400; letter-spacing:.28em; text-transform:uppercase; color:oklch(0.87 0.185 100); margin-bottom:16px;">Careers at BNR</div>
-      <h2 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:clamp(28px,3.6vw,42px); line-height:1; letter-spacing:0.005em; margin:0; color:#fff;">Qualified <span style="white-space:nowrap;">GT-R</span> mechanics wanted.</h2>
-      <p style="font-size:15px; font-weight:300; line-height:1.65; color:#9aa0ad; margin:18px 0 0; max-width:52ch;">Real experience on Nissan Skyline <span style="white-space:nowrap;">GT-Rs</span> and RB engines? We're growing the team on the Gold Coast and want to hear from you.</p>
-
-      <sc-if value="{{ hireFormClosed }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ onHireOpen }}" style="margin-top:28px; cursor:pointer; text-decoration:none; font-size:13px; font-weight:500; letter-spacing:.02em; background:transparent; color:oklch(0.87 0.185 100); border:1px solid oklch(0.87 0.185 100 / 0.5); padding:13px 26px; border-radius:4px;" style-hover="background:oklch(0.87 0.185 100 / 0.08)">Apply for a role →</button>
-      </sc-if>
-
-      <sc-if value="{{ hireFormOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="width:100%; max-width:440px; margin-top:32px; text-align:left;">
-        <sc-if value="{{ hireNotSubmitted }}" hint-placeholder-val="{{ true }}">
-        <form action="https://formspree.io/f/mjgqpbnk" method="POST" onSubmit="{{ onHireSubmit }}" style="display:flex; flex-direction:column; gap:14px;">
-          <input type="hidden" name="_subject" value="New BNR careers application">
-          <input type="hidden" name="_replyto" value="{{ hireContact }}">
-          <input name="name" value="{{ hireName }}" onInput="{{ onHireName }}" placeholder="Full name" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
-          <input name="contact" value="{{ hireContact }}" onInput="{{ onHireContact }}" placeholder="Phone or email" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
-          <input name="experience" value="{{ hireYears }}" onInput="{{ onHireYears }}" placeholder="Years of GT-R / RB experience" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none;">
-          <textarea name="message" value="{{ hireNotes }}" onInput="{{ onHireNotes }}" placeholder="Qualifications, past work, why BNR…" rows="3" style="font-family:'Sora'; font-size:15px; font-weight:300; color:#e8e9ec; padding:12px 14px; border:1px solid #2a3040; background:#0a0c10; border-radius:4px; outline:none; resize:vertical;"></textarea>
-
-          <sc-if value="{{ hireSubmitError }}" hint-placeholder-val="{{ false }}">
-          <div style="font-size:12.5px; font-weight:400; color:#e08a8a; border:1px solid #4a2a2a; background:#1a0e0e; border-radius:4px; padding:10px 12px;">Something went wrong sending that — please try again, or email us directly.</div>
-          </sc-if>
-
-          <div style="display:flex; gap:10px;">
-            <button type="submit" disabled="{{ hireSubmitting }}" style="flex:1; font-size:13.5px; font-weight:600; letter-spacing:.02em; cursor:pointer; background:oklch(0.87 0.185 100); color:#0a0c10; border:none; padding:14px; border-radius:4px; opacity:{{ hireSubmitOpacity }};" style-hover="box-shadow:0 0 30px oklch(0.87 0.185 100 / 0.4)">{{ hireSubmitLabel }}</button>
-            <button type="button" onClick="{{ onHireClose }}" style="cursor:pointer; font-size:13.5px; font-weight:400; background:transparent; color:#6b7280; border:1px solid #2a3040; padding:14px 18px; border-radius:4px;" style-hover="color:#9aa0ad">Cancel</button>
-          </div>
-        </form>
-        </sc-if>
-        <sc-if value="{{ hireSubmitted }}" hint-placeholder-val="{{ false }}">
-        <div style="text-align:center;">
-          <div style="font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:oklch(0.78 0.12 165); margin-bottom:14px;">✓ Application received</div>
-          <h3 style="font-family:'Saira Condensed',sans-serif; font-style:italic; font-weight:700; text-transform:uppercase; font-size:28px; margin:0 0 14px; color:#fff; letter-spacing:0.005em;">{{ hireSuccessHeading }}</h3>
-          <p style="font-size:14px; font-weight:300; line-height:1.6; color:#9aa0ad; margin:0 0 18px;">Thanks for the details on your experience. We'll review your application and reach out if it's a fit.</p>
-          <button onClick="{{ onHireReset }}" style="margin-top:4px; font-size:12px; font-weight:500; letter-spacing:.04em; cursor:pointer; background:transparent; color:#e8e9ec; border:1px solid #2a3040; padding:12px 18px; border-radius:4px;" style-hover="border-color:oklch(0.87 0.185 100)">Edit application</button>
-        </div>
-        </sc-if>
-      </div>
-      </sc-if>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer id="site-footer" data-reveal="true" style="border-top:1px solid #1a1e28; background:#080a0d; opacity:{{ revealFooter.opacity }}; transform:{{ revealFooter.transform }};">
     <div style="max-width:1200px; margin:0 auto; padding:clamp(44px,5vw,68px) clamp(16px,4vw,48px);">
@@ -455,11 +372,9 @@
         <div style="min-width:0;">
           <div style="font-size:10px; font-weight:400; letter-spacing:.18em; text-transform:uppercase; color:#6b7280; margin-bottom:14px;">Explore</div>
           <div style="display:flex; flex-direction:column; gap:10px; font-size:14px; font-weight:300;">
-            <a href="stock.html" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Current stock</a>
             <a href="#mission" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Mission</a>
             <a href="#how" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">How it works</a>
             <a href="#compliance" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Compliance</a>
-            <a href="#hiring" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Careers</a>
             <a href="#enquire" style="text-decoration:none; color:#9aa0ad;" style-hover="color:#e8e9ec">Enquire</a>
           </div>
         </div>
@@ -534,17 +449,6 @@ function getComplianceState(code){
 
 const BUILD_PHOTO_COUNT = 16;
 
-// Synced from the seller's Facebook Marketplace listings — see
-// assets/stock-sync/manifest.json (facebook-marketplace-sync skill).
-// Mirrors the same data on stock.html. Regenerated by stock-page-publish.
-const STOCK_PREVIEW = [
-  { title:'1991 Nissan Skyline R32 GTR', priceLabel:'$85,000', status:'Available', photo:'assets/stock-sync/1991-nissan-skyline-r32-gtr/photo-1.png' },
-  { title:'1990 Nissan Skyline R32 GTR', priceLabel:'Sold · A$78,500', status:'Sold', photo:'assets/stock-sync/1990-nissan-skyline-r32-gtr/photo-1.jpg' },
-  { title:'1994 Nissan Skyline R32 GTR Series 3', priceLabel:'Sold · A$72,500', status:'Sold', photo:'assets/stock-sync/1994-nissan-skyline-r32-gtr-series-3/photo-1.jpg' },
-  { title:'1994 Nissan Skyline R32 GTR', priceLabel:'Sold · $72,500', status:'Sold', photo:'assets/stock-sync/1994-nissan-skyline-r32-gtr/photo-1.png' },
-  { title:'1995 Nissan Skyline R33 GTR Series 1 LP2', priceLabel:'Sold · $85,000', status:'Sold', photo:'assets/stock-sync/1995-nissan-skyline-r33-gtr-series-1-lp2/photo-1.png' },
-];
-
 class Component extends DCLogic {
   constructor(props){
     super(props);
@@ -553,8 +457,6 @@ class Component extends DCLogic {
       active: validDefault ? props.defaultState : COMPLIANCE_DEFAULT,
       name:'', platform:'', region:'', contact:'', carNotes:'', submitted:false,
       submitting:false, submitError:false,
-      hireName:'', hireContact:'', hireYears:'', hireNotes:'', hireSubmitted:false,
-      hireSubmitting:false, hireSubmitError:false, hireFormOpen:false,
       isMobile: typeof window !== 'undefined' ? window.innerWidth < 720 : false,
       menuOpen: false,
       bayIsB: false,
@@ -570,7 +472,7 @@ class Component extends DCLogic {
     this._bayActive = true;
     this._scheduleBaySwap();
 
-    const revealIds = ['mission','how','build','compliance','stock','enquire','hiring','site-footer'];
+    const revealIds = ['mission','how','build','compliance','enquire','site-footer'];
     const keyFor = (elId) => (elId === 'site-footer' ? 'footer' : elId);
     const revealAllNow = () => {
       const allRevealed = {};
@@ -612,7 +514,6 @@ class Component extends DCLogic {
   hideBrokenImage = (e) => { e.currentTarget.style.display = 'none'; };
   renderVals(){
     const s = this.state;
-    const yellow = 'oklch(0.87 0.185 100)';
     const states = COMPLIANCE_STATES.map(st => {
       const on = st.code === s.active;
       return { code:st.code, name:st.name, path:st.path, labelX:st.labelX, labelY:st.labelY,
@@ -620,7 +521,6 @@ class Component extends DCLogic {
         activeClass: on ? 'is-active' : '' };
     });
     const a = getComplianceState(s.active);
-    const yellow2 = yellow;
     const toggleMenu = () => this.setState({ menuOpen: !this.state.menuOpen });
     const closeMenu = () => this.setState({ menuOpen: false });
     const menuBarTop = s.menuOpen ? 'rotate(45deg) translate(4px,4px)' : 'none';
@@ -648,17 +548,9 @@ class Component extends DCLogic {
       revealHow: { opacity: s.revealed.how?1:0, transform: s.revealed.how?'translateY(0)':'translateY(28px)' },
       revealBuild: { opacity: s.revealed.build?1:0, transform: s.revealed.build?'translateY(0)':'translateY(28px)' },
       revealCompliance: { opacity: s.revealed.compliance?1:0, transform: s.revealed.compliance?'translateY(0)':'translateY(28px)' },
-      revealStock: { opacity: s.revealed.stock?1:0, transform: s.revealed.stock?'translateY(0)':'translateY(28px)' },
       revealEnquire: { opacity: s.revealed.enquire?1:0, transform: s.revealed.enquire?'translateY(0)':'translateY(28px)' },
-      revealHiring: { opacity: s.revealed.hiring?1:0, transform: s.revealed.hiring?'translateY(0)':'translateY(28px)' },
       revealFooter: { opacity: s.revealed.footer?1:0, transform: s.revealed.footer?'translateY(0)':'translateY(28px)' },
       buildImages, successHeading,
-      stockPreview: STOCK_PREVIEW.map((car, i) => ({
-        key: i, title: car.title, priceLabel: car.priceLabel, status: car.status,
-        badgeBg: car.status === 'Available' ? 'rgba(10,12,16,0.72)' : 'rgba(60,64,74,0.85)',
-        badgeFg: car.status === 'Available' ? yellow : '#9aa0ad',
-        setPhotoRef: (el) => { if (el && !el.src.endsWith(car.photo)) el.src = car.photo; },
-      })),
       aCode:a.code, aName:a.name, aScheme:a.scheme, aWhat:a.what, aBody:a.body,
       name:s.name, onName:(e)=>this.setState({ name:e.target.value }),
       platform:s.platform, onPlatform:(e)=>this.setState({ platform:e.target.value }),
@@ -686,33 +578,6 @@ class Component extends DCLogic {
       confName: s.name ? s.name.split(' ')[0] : 'mate',
       platformLabel: s.platform || 'Skyline GT-R',
       regionTail: s.region ? (' in ' + s.region) : '',
-
-      hireName:s.hireName, onHireName:(e)=>this.setState({ hireName:e.target.value }),
-      hireContact:s.hireContact, onHireContact:(e)=>this.setState({ hireContact:e.target.value }),
-      hireYears:s.hireYears, onHireYears:(e)=>this.setState({ hireYears:e.target.value }),
-      hireNotes:s.hireNotes, onHireNotes:(e)=>this.setState({ hireNotes:e.target.value }),
-      hireSubmitting: s.hireSubmitting, hireSubmitError: s.hireSubmitError,
-      hireSubmitLabel: s.hireSubmitting ? 'Sending…' : 'Submit application',
-      hireSubmitOpacity: s.hireSubmitting ? '0.7' : '1',
-      onHireSubmit:(e)=>{
-        e.preventDefault();
-        this.setState({ hireSubmitting:true, hireSubmitError:false });
-        const form = e.target;
-        fetch(form.action, {
-          method:'POST',
-          body: new FormData(form),
-          headers: { 'Accept':'application/json' },
-        }).then((res) => {
-          if (res.ok) this.setState({ hireSubmitted:true, hireSubmitting:false });
-          else this.setState({ hireSubmitError:true, hireSubmitting:false });
-        }).catch(() => this.setState({ hireSubmitError:true, hireSubmitting:false }));
-      },
-      onHireReset:()=>this.setState({ hireSubmitted:false }),
-      hireNotSubmitted: !s.hireSubmitted, hireSubmitted: s.hireSubmitted,
-      hireSuccessHeading: "We'll be in touch, " + (s.hireName ? s.hireName.split(' ')[0] : 'mate') + '.',
-      hireFormOpen: s.hireFormOpen, hireFormClosed: !s.hireFormOpen,
-      onHireOpen: ()=>this.setState({ hireFormOpen:true }),
-      onHireClose: ()=>this.setState({ hireFormOpen:false }),
     };
   }
 }
