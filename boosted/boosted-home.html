@@ -206,6 +206,11 @@
 
   .hint{font-size:11px; color:var(--steel); margin-top:-6px; margin-bottom:12px; line-height:1.45;}
 
+  /* LOGIN GATE */
+  .gate{position:fixed; inset:0; background:var(--charcoal); display:none;
+        align-items:center; justify-content:center; z-index:95; padding:20px;}
+  .gate.open{display:flex;}
+
   /* COST TABLE */
   .cost-table-wrap{overflow-x:auto;}
   .cost-table{width:100%; border-collapse:collapse; min-width:660px;}
@@ -258,12 +263,25 @@
 </head>
 <body>
 
+<div class="gate" id="gate">
+  <div class="modal" style="max-width:340px;">
+    <div class="modal-head"><h2>Boosted — Sign in</h2></div>
+    <div class="modal-body">
+      <div class="field"><label>EMAIL</label><input id="login_email" type="email" autocomplete="username"></div>
+      <div class="field"><label>PASSWORD</label><input id="login_pass" type="password" autocomplete="current-password"></div>
+      <div class="hint" id="loginError" style="color:var(--red); display:none;"></div>
+    </div>
+    <div class="modal-foot"><div></div><button class="btn" id="loginBtn">Sign in</button></div>
+  </div>
+</div>
+
 <div class="topbar">
   <div class="brand">BOOSTED <span>HOME</span></div>
   <div class="topbar-right">
     <input class="search" id="search" placeholder="Search everything — chassis, buyer, task…">
     <span class="saved" id="saved"></span>
     <button class="btn ghost" id="collapseBtn">Collapse all</button>
+    <button class="btn ghost" id="signOutBtn" style="display:none;">Sign out</button>
     <button class="btn ghost" id="importBtn">Import</button>
     <button class="btn ghost" id="exportBtn">Export</button>
     <input type="file" id="fileInput" accept="application/json" style="display:none">
@@ -433,11 +451,22 @@
 // To go live:
 //   1. supabase.com -> New project (free tier is fine)
 //   2. SQL Editor -> paste schema.sql -> Run
-//   3. Settings -> API -> copy Project URL and the `anon public` key
-//   4. Paste them below and reload.
+//   3. Authentication -> Users -> Add user. One shared email/password
+//      for the whole team (not per-person) is fine for now.
+//   4. SQL Editor -> insert a profiles row for that user's UUID
+//      (shown in the Users table), e.g.:
+//        insert into profiles (id, full_name, role)
+//        values ('<uuid-from-step-3>', 'Boosted Staff', 'owner');
+//      Without this row, RLS blocks that login from reading/writing
+//      anything — a blank board after sign-in almost always means
+//      this step was skipped.
+//   5. Settings -> API -> copy Project URL and the `anon public` key
+//   6. Paste them below and reload.
 //
-// The anon key is safe in the browser — it's public by design.
-// Row Level Security in schema.sql is what actually protects data.
+// The anon key is safe in the browser — it's public by design. This
+// repo is public, so with no login at all that key would let anyone
+// on the internet read and edit real customer data. The sign-in gate
+// below is what actually protects it, not the key being secret.
 // ============================================================
 const SUPABASE_URL = '';
 const SUPABASE_ANON_KEY = '';
@@ -1346,21 +1375,53 @@ $('fileInput').onchange = e => {
   r.readAsText(f);
 };
 
+// ---------- LOGIN ----------
+// One shared login for the whole team, not per-person accounts —
+// RLS just needs *a* logged-in user with a profiles row so the anon
+// key sitting in this public repo can't be used by anyone else.
+async function startLive(){
+  try{
+    await db.loadAll();
+    db.subscribe();
+    flag('live · synced', 'on');
+    bumpIds();
+    render(false);
+  }catch(e){
+    console.error('Live load failed, falling back to local:', e);
+    LIVE = false;
+    await load();
+    bumpIds();
+    render(false);
+  }
+}
+
+$('loginBtn').onclick = async () => {
+  const email = $('login_email').value.trim();
+  const password = $('login_pass').value;
+  if(!email || !password) return;
+  $('loginBtn').disabled = true;
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  $('loginBtn').disabled = false;
+  if(error){ $('loginError').textContent = error.message; $('loginError').style.display = 'block'; return; }
+  $('gate').classList.remove('open');
+  await startLive();
+};
+$('login_pass').addEventListener('keydown', e => { if(e.key === 'Enter') $('loginBtn').click(); });
+
+$('signOutBtn').onclick = async () => {
+  await sb.auth.signOut();
+  $('gate').classList.add('open');
+};
+
 // ---------- START ----------
 (async () => {
   const connected = await db.init();
   if(connected){
-    try{
-      await db.loadAll();
-      db.subscribe();
-      flag('live · synced', 'on');
-      bumpIds();
-      render(false);
-      return;
-    }catch(e){
-      console.error('Live load failed, falling back to local:', e);
-      LIVE = false;
-    }
+    $('signOutBtn').style.display = 'inline-block';
+    const { data: { session } } = await sb.auth.getSession();
+    if(session){ await startLive(); return; }
+    $('gate').classList.add('open');
+    return;
   }
   await load();          // browser storage
   bumpIds();

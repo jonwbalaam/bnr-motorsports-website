@@ -36,11 +36,21 @@ Run it: open `boosted-home.html` in a browser. No server needed.
 - Supabase wiring present but **disabled** (config constants are blank)
 
 ### What does not work yet
-- No authentication — anyone with the file has everything
-- No multi-user, no sync between devices
+- Auth is one shared login for the whole team, not per-person accounts —
+  fine for now, but nobody can be told apart in the data (see below)
+- No sync conflict handling beyond realtime overwrite-on-change
 - No website integration
 - Supabase path is written but **never tested against a real project** —
   expect column-name mismatches on first connect
+
+### Why there's a login at all
+This repo is **public** (`www.bnrmotorsports.com.au` is served from it via
+GitHub Pages). The Supabase anon key is meant to be public — it's not a
+secret — but only if Row Level Security actually blocks unauthenticated
+requests. `schema.sql`'s policies already require a logged-in user with a
+`profiles` row, so wiring up sign-in was the only way to go live without
+publishing every customer's name and phone number to anyone who finds the
+repo. One shared login (not per-person) satisfies that — see "Go live" below.
 
 ---
 
@@ -184,3 +194,29 @@ Apply `schema.sql` to a new Supabase project, fill in `SUPABASE_URL` and
 `SUPABASE_ANON_KEY`, and get the board reading and writing live. Expect to fix
 one or two column mismatches in the translation layer — that path has never been
 run. Verify realtime works with two browser windows open before moving on.
+
+---
+
+## Go live (Supabase)
+
+1. supabase.com → New project (free tier is enough at this scale).
+2. SQL Editor → paste all of `schema.sql` → Run.
+3. Authentication → Users → Add user. One email/password for the whole
+   team is enough — this isn't meant to be per-person yet.
+4. Copy that user's UUID from the Users table, then in the SQL Editor:
+   ```sql
+   insert into profiles (id, full_name, role)
+   values ('<uuid-from-step-3>', 'Boosted Staff', 'owner');
+   ```
+   Skipping this is the most likely failure mode: login succeeds but the
+   board stays empty, because RLS has nothing to match `auth.uid()` against.
+5. Settings → API → copy the Project URL and the `anon public` key into
+   `SUPABASE_URL` / `SUPABASE_ANON_KEY` at the top of the script in
+   `boosted-home.html`.
+6. Reload. A sign-in screen should appear — log in with the account from
+   step 3. Share that same email/password with the rest of the team.
+
+Don't skip step 3-4 to save time. Without a real login gate, the anon key
+sitting in this public repo would let anyone on the internet read and edit
+every customer's name and phone number — not a hypothetical, since this
+repo backs a live public website.
