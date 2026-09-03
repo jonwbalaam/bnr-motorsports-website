@@ -206,6 +206,36 @@
 
   .hint{font-size:11px; color:var(--steel); margin-top:-6px; margin-bottom:12px; line-height:1.45;}
 
+  /* COST TABLE */
+  .cost-table-wrap{overflow-x:auto;}
+  .cost-table{width:100%; border-collapse:collapse; min-width:660px;}
+  .cost-table th{font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--steel); text-align:left;
+                 padding:6px 10px; border-bottom:1px solid var(--line); text-transform:uppercase; letter-spacing:0.3px;}
+  .cost-table td{padding:8px 10px; border-bottom:1px solid var(--line); font-size:12.5px;}
+  .cost-table tbody tr{cursor:pointer;}
+  .cost-table tbody tr:hover{background:var(--surface-raised);}
+  .cost-table td.mono{font-family:'JetBrains Mono',monospace;}
+  .pos{color:var(--green);} .neg{color:var(--red);}
+
+  /* COST MODAL */
+  .cost-summary{display:flex; flex-wrap:wrap; gap:16px; margin:2px 0 16px; padding:12px 14px;
+                background:var(--bg); border:1px solid var(--line); border-radius:6px;}
+  .cost-summary .cs{min-width:84px;}
+  .cost-summary .cs .v{font-family:'JetBrains Mono',monospace; font-size:15px; font-weight:600;}
+  .cost-summary .cs .l{font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--steel); margin-top:2px;}
+  .exp-row{display:flex; justify-content:space-between; align-items:center; gap:8px; padding:7px 9px;
+           background:var(--surface-raised); border-radius:4px; margin-bottom:5px;}
+  .exp-row .ex-main{flex:1; font-size:12px;}
+  .exp-row .ex-cat{font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--steel); text-transform:uppercase;}
+  .exp-row .ex-amt{font-family:'JetBrains Mono',monospace; font-weight:600; white-space:nowrap;}
+  .exp-row.quote .ex-amt{color:var(--amber);}
+  .exp-row .ex-del{color:var(--steel); cursor:pointer; font-size:16px; padding:0 2px; line-height:1;}
+  .exp-row .ex-del:hover{color:var(--red);}
+  .exp-add{border-top:1px solid var(--line); padding-top:12px; margin-top:6px;}
+  .exp-add .row2{margin-bottom:8px;}
+  .chk-inline{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--steel); white-space:nowrap; flex:0 0 auto;}
+  .chk-inline input{width:auto;}
+
   /* MOBILE */
   @media (max-width: 700px){
     .topbar{flex-wrap:wrap; gap:9px; padding:10px 14px;}
@@ -258,6 +288,18 @@
     <div class="sec-meta"><span class="m" id="m-production"></span><span class="sec-add" data-add="vehicle">+ New vehicle</span></div>
   </div>
   <div class="sec-body"><div class="lanes" id="lanes-production"></div></div>
+</div>
+
+<div class="section" id="sec-costs">
+  <div class="sec-head" data-toggle="sec-costs">
+    <span class="caret">▼</span><span class="accent" style="background:var(--coral)"></span>
+    <h2>Costs &amp; Margin</h2>
+    <div class="sec-meta"><span class="m" id="m-costs"></span></div>
+  </div>
+  <div class="sec-body"><div class="cost-table-wrap"><table class="cost-table">
+    <thead><tr><th>Chassis</th><th>Desc</th><th>Lane</th><th>Cost</th><th>Asking</th><th>Sale</th><th>Profit</th><th>ROI</th><th>Days</th></tr></thead>
+    <tbody id="costRows"></tbody>
+  </table></div></div>
 </div>
 
 <div class="section" id="sec-crm">
@@ -334,6 +376,35 @@
     </div>
     <div class="modal-foot"><button class="btn danger" id="tDelete">Delete</button>
       <div style="display:flex; gap:8px;"><button class="btn ghost" data-close="t">Cancel</button><button class="btn" id="tSave">Save</button></div></div>
+  </div>
+</div>
+
+<div class="overlay" id="cOverlay">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-head"><h2 id="cTitle">Cost breakdown</h2><div class="close" data-close="c">&times;</div></div>
+    <div class="modal-body">
+      <div class="row2">
+        <div class="field"><label>ASKING PRICE</label><input id="c_asking" type="number"></div>
+        <div class="field"><label>SALE PRICE</label><input id="c_sale" type="number"></div>
+      </div>
+      <div class="field"><label>PURCHASE DATE</label><input id="c_purchase" type="date"></div>
+      <div class="cost-summary" id="cSummary"></div>
+      <div class="field"><label>EXPENSES</label>
+        <div id="cExpenseList"></div>
+      </div>
+      <div class="exp-add">
+        <div class="row2">
+          <div class="field"><select id="e_category"></select></div>
+          <div class="field"><input id="e_desc" placeholder="Description"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><input id="e_amount" type="number" placeholder="Amount"></div>
+          <label class="chk-inline"><input type="checkbox" id="e_quote"> Quote pending</label>
+        </div>
+        <button class="btn ghost" id="eAdd" style="width:100%;">+ Add expense</button>
+      </div>
+    </div>
+    <div class="modal-foot"><div></div><button class="btn ghost" data-close="c">Close</button></div>
   </div>
 </div>
 
@@ -469,8 +540,10 @@ let tasks = [
   {id:15,list:'geoff', text:'Increase production ability — hire more mechanics, contact Seek applicants', done:false, vehicle:null, when:''}
 ];
 
-let nextV = 200, nextD = 200, nextT = 200;
-let editingV = null, editingD = null, editingT = null;
+let expenses = [];
+
+let nextV = 200, nextD = 200, nextT = 200, nextE = 200;
+let editingV = null, editingD = null, editingT = null, editingCost = null;
 let selColour = 'teal';
 let filter = '';
 const $ = id => document.getElementById(id);
@@ -491,12 +564,26 @@ const laneBoard = id => (LANES.find(x=>x.id===id)||{}).board || 'production';
 const toVehicleRow = v => ({
   id: typeof v.id === 'number' ? undefined : v.id,
   chassis_no: v.chassis, model: v.desc, job_no: v.job ? +v.job : null,
-  card_colour: v.colour, lane_id: v.lane, notes: v.notes
+  card_colour: v.colour, lane_id: v.lane, notes: v.notes,
+  asking_price: v.asking || null, sale_price: v.sale || null,
+  purchase_date: v.purchaseDate || null
 });
 const fromVehicleRow = r => ({
   id: r.id, chassis: r.chassis_no || '', desc: r.model || '',
   job: r.job_no ? String(r.job_no) : '', who: r.assigned_initials || '',
-  lane: r.lane_id, colour: r.card_colour || 'teal', notes: r.notes || ''
+  lane: r.lane_id, colour: r.card_colour || 'teal', notes: r.notes || '',
+  asking: r.asking_price || null, sale: r.sale_price || null,
+  purchaseDate: r.purchase_date || null
+});
+const toExpenseRow = e => ({
+  vehicle_id: e.vehicle, category: e.category, description: e.desc,
+  amount: +e.amount || 0, is_quote: !!e.isQuote, supplier: e.supplier || null,
+  notes: e.notes || null, incurred_on: e.date || null
+});
+const fromExpenseRow = r => ({
+  id: r.id, vehicle: r.vehicle_id, category: r.category || 'other',
+  desc: r.description || '', amount: r.amount || 0, isQuote: !!r.is_quote,
+  supplier: r.supplier || '', notes: r.notes || '', date: r.incurred_on || ''
 });
 const toDealRow = d => ({
   name: d.name, phone: d.phone, offer_amount: d.value, location: d.loc,
@@ -537,15 +624,17 @@ const db = {
 
   async loadAll(){
     if(!LIVE) return false;
-    const [v, d, t] = await Promise.all([
+    const [v, d, t, e] = await Promise.all([
       sb.from('vehicles').select('*'),
       sb.from('deals').select('*'),
-      sb.from('tasks').select('*')
+      sb.from('tasks').select('*'),
+      sb.from('expenses').select('*')
     ]);
-    if(v.error || d.error || t.error) throw (v.error || d.error || t.error);
+    if(v.error || d.error || t.error || e.error) throw (v.error || d.error || t.error || e.error);
     vehicles = (v.data || []).map(fromVehicleRow);
     deals    = (d.data || []).map(fromDealRow);
     tasks    = (t.data || []).map(fromTaskRow);
+    expenses = (e.data || []).map(fromExpenseRow);
     return true;
   },
 
@@ -553,7 +642,8 @@ const db = {
     if(!LIVE) return obj;
     const map = {vehicle:[ 'vehicles', toVehicleRow, fromVehicleRow],
                  deal:   [ 'deals',    toDealRow,    fromDealRow],
-                 task:   [ 'tasks',    toTaskRow,    fromTaskRow]};
+                 task:   [ 'tasks',    toTaskRow,    fromTaskRow],
+                 expense:[ 'expenses', toExpenseRow, fromExpenseRow]};
     const [table, to, from] = map[kind];
     const row = to(obj);
     if(typeof obj.id === 'string') row.id = obj.id;   // existing uuid
@@ -564,7 +654,7 @@ const db = {
 
   async remove(kind, id){
     if(!LIVE) return;
-    const table = {vehicle:'vehicles', deal:'deals', task:'tasks'}[kind];
+    const table = {vehicle:'vehicles', deal:'deals', task:'tasks', expense:'expenses'}[kind];
     const { error } = await sb.from(table).delete().eq('id', id);
     if(error){ flag('delete failed', 'warn'); console.error(error); }
   },
@@ -577,6 +667,7 @@ const db = {
       .on('postgres_changes', {event:'*', schema:'public', table:'vehicles'}, refresh)
       .on('postgres_changes', {event:'*', schema:'public', table:'deals'},    refresh)
       .on('postgres_changes', {event:'*', schema:'public', table:'tasks'},    refresh)
+      .on('postgres_changes', {event:'*', schema:'public', table:'expenses'}, refresh)
       .subscribe();
     async function refresh(){
       try{ await db.loadAll(); render(false); flag('live · synced', 'on'); }
@@ -595,7 +686,7 @@ let storageOK = false;
 
 async function save(){
   if(LIVE){ flag('live · synced', 'on'); return; }   // Postgres is the source of truth
-  const payload = JSON.stringify({vehicles, deals, tasks, nextV, nextD, nextT});
+  const payload = JSON.stringify({vehicles, deals, tasks, expenses, nextV, nextD, nextT, nextE});
   try{
     if(typeof window.storage === 'undefined') throw new Error('no storage api');
     await window.storage.set(STORE_KEY, payload, false);
@@ -616,7 +707,8 @@ async function load(){
       if(Array.isArray(d.vehicles)) vehicles = d.vehicles;
       if(Array.isArray(d.deals))    deals    = d.deals;
       if(Array.isArray(d.tasks))    tasks    = d.tasks;
-      nextV = d.nextV || nextV; nextD = d.nextD || nextD; nextT = d.nextT || nextT;
+      if(Array.isArray(d.expenses)) expenses = d.expenses;
+      nextV = d.nextV || nextV; nextD = d.nextD || nextD; nextT = d.nextT || nextT; nextE = d.nextE || nextE;
       storageOK = true;
       flag('restored', 'on');
       return;
@@ -638,6 +730,26 @@ function bumpIds(){
   nextV = Math.max(nextV, ...vehicles.map(v=>v.id), 0) + 1;
   nextD = Math.max(nextD, ...deals.map(d=>d.id), 0) + 1;
   nextT = Math.max(nextT, ...tasks.map(t=>t.id), 0) + 1;
+  nextE = Math.max(nextE, ...expenses.map(e=>e.id), 0) + 1;
+}
+
+// ---------- COST / MARGIN HELPERS ----------
+// Mirrors vehicle_costs / vehicle_margins in schema.sql so the same
+// numbers show here as would come from those views once live.
+function vehicleCost(vId){
+  const items = expenses.filter(e => e.vehicle === vId);
+  const total = items.filter(e => !e.isQuote).reduce((s,e)=>s+(+e.amount||0), 0);
+  return {total, items};
+}
+function vehicleMargin(v){
+  const {total} = vehicleCost(v.id);
+  const headline = v.sale ?? v.asking ?? null;
+  const profit = headline != null ? headline - total : null;
+  const roi = (total > 0 && profit != null) ? Math.round((profit/total)*1000)/10 : null;
+  const days = v.purchaseDate
+    ? Math.round((Date.now() - new Date(v.purchaseDate).getTime()) / 86400000)
+    : null;
+  return {total, profit, roi, days};
 }
 
 // ============================================================
@@ -646,6 +758,7 @@ function bumpIds(){
 function render(persist = true){
   renderDash();
   renderVehicles('production');
+  renderCosts();
   renderCRM();
   renderTasks();
   if(persist) save();
@@ -659,17 +772,48 @@ function renderDash(){
   const openTasks  = tasks.filter(t=>!t.done).length;
   const matched    = openDeals.filter(d=>d.vehicle).length;
   const callsDue   = buildQueue().length;
+  const openSpend  = vehicles.filter(v=>v.lane!==7).reduce((s,v)=>s+vehicleCost(v.id).total, 0);
 
   $('dash').innerHTML = `
     <div class="kpi"><div class="v" style="color:var(--purple)">${openTasks}</div><div class="l">OPEN TASKS</div></div>
     <div class="kpi"><div class="v">${vehicles.filter(v=>laneBoard(v.lane)==='production').length}</div><div class="l">VEHICLES ON BOARD</div></div>
     <div class="kpi"><div class="v">${inWorkshop}</div><div class="l">IN WORKSHOP</div></div>
     <div class="kpi"><div class="v" style="color:var(--teal)">${ready}</div><div class="l">SALE READY</div></div>
+    <div class="kpi"><div class="v" style="color:var(--coral)">${money(openSpend)}</div><div class="l">OPEN STOCK SPEND</div></div>
     <div class="kpi"><div class="v" style="color:var(--green)">${money(pipeline)}</div><div class="l">OPEN PIPELINE</div></div>
     <div class="kpi"><div class="v">${openDeals.length}</div><div class="l">ACTIVE LEADS</div></div>
     <div class="kpi"><div class="v" style="color:var(--amber)">${matched}</div><div class="l">LEADS MATCHED TO STOCK</div></div>
     <div class="kpi" id="kpiCall"><div class="v" style="color:var(--red)">${callsDue}</div><div class="l">CALLS DUE TODAY</div></div>`;
   const k = $('kpiCall'); if(k) k.onclick = openCall;
+}
+
+function renderCosts(){
+  const wrap = $('costRows'); wrap.innerHTML = '';
+  const rows = vehicles.filter(matchV)
+    .sort((a,b) => a.lane - b.lane || a.chassis.localeCompare(b.chassis));
+  let totalSpend = 0, roiSum = 0, roiCount = 0;
+
+  if(!rows.length){
+    wrap.innerHTML = `<tr><td colspan="9" class="empty">${filter?'No matches':'No vehicles yet'}</td></tr>`;
+  }
+  rows.forEach(v => {
+    const m = vehicleMargin(v);
+    totalSpend += m.total;
+    if(m.roi != null){ roiSum += m.roi; roiCount++; }
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="mono">${esc(v.chassis)}</td><td>${esc(v.desc)}</td>
+      <td>${esc((LANES.find(l=>l.id===v.lane)||{}).name || '')}</td>
+      <td class="mono">${money(m.total)}</td>
+      <td class="mono">${v.asking ? money(v.asking) : '—'}</td>
+      <td class="mono">${v.sale ? money(v.sale) : '—'}</td>
+      <td class="mono ${m.profit>0?'pos':m.profit<0?'neg':''}">${m.profit!=null ? money(m.profit) : '—'}</td>
+      <td class="mono ${m.roi>0?'pos':m.roi<0?'neg':''}">${m.roi!=null ? m.roi+'%' : '—'}</td>
+      <td class="mono">${m.days!=null ? m.days : '—'}</td>`;
+    tr.onclick = () => openCost(v.id);
+    wrap.appendChild(tr);
+  });
+  $('m-costs').textContent = `${money(totalSpend)} spent across ${rows.length} vehicles`
+    + (roiCount ? ` · avg ROI ${Math.round(roiSum/roiCount*10)/10}%` : '');
 }
 
 function renderVehicles(board){
@@ -961,6 +1105,85 @@ $('tDelete').onclick = async () => {
 };
 
 // ============================================================
+// COST / MARGIN MODAL
+// Per-vehicle expense log plus asking/sale price and purchase
+// date, which is all vehicle_margins in schema.sql needs to work
+// out profit and ROI without a spreadsheet formula anywhere.
+// ============================================================
+const EXPENSE_CATEGORIES = ['acquisition','freight','compliance','mechanical',
+  'paint_body','parts','detail','marketing','other'];
+
+function openCost(vId){
+  editingCost = vId;
+  const v = vehicles.find(x=>x.id===vId);
+  $('cTitle').textContent = `${v.chassis}${v.desc ? ' — ' + v.desc : ''}`;
+  $('c_asking').value = v.asking || '';
+  $('c_sale').value = v.sale || '';
+  $('c_purchase').value = v.purchaseDate || '';
+  $('e_category').innerHTML = EXPENSE_CATEGORIES.map(c=>`<option value="${c}">${c.replace('_',' ')}</option>`).join('');
+  $('e_desc').value = ''; $('e_amount').value = ''; $('e_quote').checked = false;
+  renderCostModal();
+  $('cOverlay').classList.add('open');
+}
+
+function renderCostModal(){
+  const v = vehicles.find(x=>x.id===editingCost);
+  if(!v) return;
+  const m = vehicleMargin(v);
+  const items = expenses.filter(e=>e.vehicle===v.id).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const pendingSum = items.filter(e=>e.isQuote).reduce((s,e)=>s+(+e.amount||0),0);
+
+  $('cSummary').innerHTML = `
+    <div class="cs"><div class="v">${money(m.total)}</div><div class="l">TOTAL COST</div></div>
+    <div class="cs"><div class="v" style="color:var(--amber)">${pendingSum?money(pendingSum):'—'}</div><div class="l">PENDING QUOTES</div></div>
+    <div class="cs"><div class="v" style="color:${m.profit>0?'var(--green)':m.profit<0?'var(--red)':'var(--ink)'}">${m.profit!=null?money(m.profit):'—'}</div><div class="l">PROFIT</div></div>
+    <div class="cs"><div class="v">${m.roi!=null?m.roi+'%':'—'}</div><div class="l">ROI</div></div>
+    <div class="cs"><div class="v">${m.days!=null?m.days:'—'}</div><div class="l">DAYS HELD</div></div>`;
+
+  const list = $('cExpenseList');
+  if(!items.length){
+    list.innerHTML = `<div class="empty">No expenses logged yet</div>`;
+  } else {
+    list.innerHTML = '';
+    items.forEach(e => {
+      const row = document.createElement('div');
+      row.className = 'exp-row' + (e.isQuote ? ' quote' : '');
+      row.innerHTML = `<div class="ex-main"><div class="ex-cat">${esc(e.category.replace('_',' '))}${e.isQuote?' · quote':''}</div>${esc(e.desc)}</div>
+        <div class="ex-amt">${money(e.amount)}</div><div class="ex-del">&times;</div>`;
+      row.querySelector('.ex-del').onclick = async () => {
+        await db.remove('expense', e.id);
+        expenses = expenses.filter(x=>x.id!==e.id);
+        renderCostModal(); renderCosts(); renderDash(); save();
+      };
+      list.appendChild(row);
+    });
+  }
+}
+
+async function saveVehiclePrices(){
+  const v = vehicles.find(x=>x.id===editingCost); if(!v) return;
+  v.asking = +$('c_asking').value || null;
+  v.sale = +$('c_sale').value || null;
+  v.purchaseDate = $('c_purchase').value || null;
+  Object.assign(v, await db.upsert('vehicle', v));
+  renderCostModal(); renderCosts(); renderDash(); save();
+}
+$('c_asking').onchange = $('c_sale').onchange = $('c_purchase').onchange = saveVehiclePrices;
+
+$('eAdd').onclick = async () => {
+  const desc = $('e_desc').value.trim();
+  const amount = +$('e_amount').value || 0;
+  if(!desc && !amount) return;
+  const rec = {vehicle: editingCost, category: $('e_category').value,
+    desc: desc || $('e_category').value.replace('_',' '), amount,
+    isQuote: $('e_quote').checked, supplier: '', notes: '', date: today()};
+  const saved = await db.upsert('expense', {id: nextE++, ...rec});
+  expenses.push(saved);
+  $('e_desc').value = ''; $('e_amount').value = ''; $('e_quote').checked = false;
+  renderCostModal(); renderCosts(); renderDash(); save();
+};
+
+// ============================================================
 // CALL MODE
 // One lead at a time. Swipe or tap to set the next follow-up.
 // Rules live here so they're easy to change once you've used it.
@@ -1090,17 +1313,17 @@ document.addEventListener('keydown', e => {
 
 // ---------- SHARED ----------
 function close(k){
-  $({v:'vOverlay', d:'dOverlay', t:'tOverlay'}[k]).classList.remove('open');
-  editingV = editingD = editingT = null;
+  $({v:'vOverlay', d:'dOverlay', t:'tOverlay', c:'cOverlay'}[k]).classList.remove('open');
+  editingV = editingD = editingT = editingCost = null;
 }
 document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => close(b.dataset.close));
 document.querySelectorAll('.overlay').forEach(o => o.onclick = e => { if(e.target===o) o.classList.remove('open'); });
-document.addEventListener('keydown', e => { if(e.key==='Escape'){ close('v'); close('d'); close('t'); } });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){ close('v'); close('d'); close('t'); close('c'); } });
 
 $('search').oninput = e => { filter = e.target.value.toLowerCase(); render(false); };
 
 $('exportBtn').onclick = () => {
-  const blob = new Blob([JSON.stringify({vehicles, deals, tasks, nextV, nextD, nextT}, null, 2)], {type:'application/json'});
+  const blob = new Blob([JSON.stringify({vehicles, deals, tasks, expenses, nextV, nextD, nextT, nextE}, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   const d = new Date().toISOString().slice(0,10);
   a.href = URL.createObjectURL(blob); a.download = `boosted-${d}.json`; a.click();
@@ -1115,7 +1338,7 @@ $('fileInput').onchange = e => {
       const d = JSON.parse(r.result);
       if(!Array.isArray(d.vehicles)) throw new Error('not a Boosted export');
       if(!confirm('Replace everything currently on screen with this file?')) return;
-      vehicles = d.vehicles; deals = d.deals || []; tasks = d.tasks || [];
+      vehicles = d.vehicles; deals = d.deals || []; tasks = d.tasks || []; expenses = d.expenses || [];
       bumpIds(); render(); flag('imported', 'on');
     }catch(err){ alert('Could not read that file: ' + err.message); }
     finally{ $('fileInput').value = ''; }

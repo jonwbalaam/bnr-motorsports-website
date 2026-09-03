@@ -23,11 +23,14 @@ no dependencies except the Supabase client from CDN.
 Run it: open `boosted-home.html` in a browser. No server needed.
 
 ### What works now
-- Three boards on one page: To Do, Production Line, Sales CRM
+- Four boards on one page: To Do, Production Line, Costs & Margin, Sales CRM
 - Drag and drop between lanes/stages/lists (desktop); tap-to-edit on touch
-- Add / edit / delete on all three
-- Global search filtering all three simultaneously
-- KPI strip across the top summarising all systems
+- Add / edit / delete on all four
+- Costs & Margin — click a vehicle row to log expenses by category, set
+  asking/sale price and purchase date; profit, ROI and days-held are computed
+  client-side the same way `vehicle_margins` computes them in Postgres
+- Global search filtering all boards simultaneously
+- KPI strip across the top summarising all systems, including open-stock spend
 - Call mode — Tinder-style lead queue with swipe, tap-to-call, follow-up scheduling
 - Persistence via browser storage, plus JSON export/import
 - Supabase wiring present but **disabled** (config constants are blank)
@@ -35,7 +38,6 @@ Run it: open `boosted-home.html` in a browser. No server needed.
 ### What does not work yet
 - No authentication — anyone with the file has everything
 - No multi-user, no sync between devices
-- Expenses/margin exist in the schema but have no UI
 - No website integration
 - Supabase path is written but **never tested against a real project** —
   expect column-name mismatches on first connect
@@ -70,6 +72,12 @@ same for deals and tasks):
 | `value` (deal) | `offer_amount` |
 | `want` (deal) | `looking_for` |
 | `when` (task) | `due_time` |
+| `asking` (vehicle) | `asking_price` |
+| `sale` (vehicle) | `sale_price` |
+| `purchaseDate` (vehicle) | `purchase_date` |
+| `desc` (expense) | `description` |
+| `isQuote` (expense) | `is_quote` |
+| `date` (expense) | `incurred_on` |
 
 If you rename a field, update both sides.
 
@@ -126,8 +134,9 @@ daily use. Do not build these in parallel.
 - **Phase 1 — Board live on Supabase.** ← next
   Create project, run schema, fill config, replace seed arrays with queries,
   add auth, add realtime, deploy.
-- **Phase 2 — Expenses.** Expense entry UI, vehicle detail view with cost
-  breakdown and margin panel, import the existing spreadsheets.
+- **Phase 2 — Expenses.** Expense entry UI and the per-vehicle cost/margin
+  panel now exist (Costs & Margin board). Remaining: import the existing
+  spreadsheets so historical vehicles aren't started from zero.
 - **Phase 3 — Roles.** RLS policies live, importer onboarded against the
   restricted view. Deliberately after Phase 2 so there's real data to protect.
 - **Phase 4 — CRM depth.** Contacts/deals fully migrated from Notion,
